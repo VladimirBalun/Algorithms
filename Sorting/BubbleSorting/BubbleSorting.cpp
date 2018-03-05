@@ -2,7 +2,7 @@
 #include <vector>
 
 template <typename Type>
-void bubleSort(Type &ar)
+void bubbleSort(Type &ar)
 {
 	bool isSorting = false;
 	while(!isSorting) 
@@ -27,7 +27,7 @@ int main()
 	{
 		std::cout << val << " ";
 	}
-	bubleSort(vector);
+	bubbleSort(vector);
 	std::cout << std::endl << "Sorted array: ";
 	for(auto& val : vector)
 	{

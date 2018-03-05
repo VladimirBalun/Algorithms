@@ -13,7 +13,6 @@ void insertionSort(Type &ar)
 	}
 }
 
-
 int main()
 {
 	std::vector<int> vector = {9, 5, 1, 2, 23, 34, 8, 0, 9, 68};
