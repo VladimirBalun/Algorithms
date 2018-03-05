@@ -19,6 +19,7 @@ project contains the following algorithms...
 | Name algorithm    | Data Structure | Average result | Worse result |
 |:-----------------:|:--------------:|:--------------:|:------------:|
 | Linear search     | Array          | O(n)           | O(n)         |
+| Binary search     | Sorted array   | O(log(n))      | O(log(n))    |
 
 
 Other algorithms will be added later. Please follow 
