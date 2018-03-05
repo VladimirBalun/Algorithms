@@ -13,6 +13,7 @@ project contains the following algorithms...
 | Bubble Sorting    | O(n)        | O(n^2)         | O(n^2)       |
 | Insertion Sorting | O(n^2)      | O(n^2)         | O(n^2)       |
 | Selection Sorting | O(n)        | O(n^2)         | O(n^2)       |
+| Quick Sorting     | O(log(n))   | O(log(n))      | O(n^2)       |
 
 ## Search
 
