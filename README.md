@@ -8,12 +8,20 @@ project contains the following algorithms...
 
 ## Sorting
 
-| Name algorithm    | Best result | Average result | Worse result |
-|:-----------------:|:-----------:|:--------------:|:------------:|
-| Bubble Sorting    | O(n)        | O(n^2)         | O(n^2)       |
-| Insertion Sorting | O(n^2)      | O(n^2)         | O(n^2)       |
-| Selection Sorting | O(n)        | O(n^2)         | O(n^2)       |
-| Quick Sorting     | O(log(n))   | O(log(n))      | O(n^2)       |
+| Name algorithm    |Data Structure | Best result | Average result | Worse result |
+|:-----------------:|:-------------:|:-----------:|:--------------:|:------------:|
+| Bubble Sorting    |  Array        | O(n)        | O(n^2)         | O(n^2)       |
+| Insertion Sorting |  Array        | O(n^2)      | O(n^2)         | O(n^2)       |
+| Selection Sorting |  Array        | O(n)        | O(n^2)         | O(n^2)       |
+| Quick Sorting     |  Array        | O(log(n))   | O(log(n))      | O(n^2)       |
+
+## Data structure
+
+| Name structure    | Indexation  | Search         | Inserting    | Deleting    | Memory |
+|:-----------------:|:-----------:|:--------------:|:------------:|:-----------:|:------:|
+| Stack             | -           | -              | O(1)         | O(1)        | O(n)   |
+
+
 
 ## Search
 
