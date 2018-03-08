@@ -3,11 +3,12 @@
 template <class Type>
 class Stack {
 public:
-	Stack() : size(0) {}
-	bool isEmpty();
+	Stack() : _size(0) {}
 	void push(Type& value);
 	void pop();
 	Type top();
+	size_t size();
+	bool isEmpty();
 	~Stack();
 private:
 	struct Node {
@@ -15,14 +16,8 @@ private:
 		Node* last;
 	};
 	Node* topElem;
-	size_t size;	
+	size_t _size;	
 };
-
-template <class Type>
-bool Stack<Type>::isEmpty()
-{
-	return size == 0; 
-}
 
 template <class Type>
 void Stack<Type>::push(Type& value)
@@ -31,23 +26,50 @@ void Stack<Type>::push(Type& value)
 	newElem->value = value;
 	newElem->last = topElem;
 	topElem = newElem;
-	size++;
+	_size++;
 }
 
 template <class Type>
 void Stack<Type>::pop()
 {
-	Node* tmpPtr = topElem;	
-	topElem = topElem->last;
-	delete tmpPtr;
-	size--;
+	if(!isEmpty())
+	{
+		Node* tmpPtr = topElem;	
+		topElem = topElem->last;
+		delete tmpPtr;
+		_size--;
+	}
+	else
+	{
+		throw std::runtime_error("Stack is empty");
+	}
 }
 
 template <class Type>
 Type Stack<Type>::top()
 {
-	return topElem->value;
+	if(!isEmpty())
+	{
+		return topElem->value;
+	}
+	else
+	{
+		throw std::runtime_error("Stack is empty");
+	}
 }
+
+template <class Type>
+size_t Stack<Type>::size()
+{
+	return _size;
+}
+
+template <class Type>
+bool Stack<Type>::isEmpty()
+{
+	return _size == 0; 
+}
+
 
 template <class Type>
 Stack<Type>::~Stack()

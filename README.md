@@ -20,6 +20,7 @@ project contains the following algorithms...
 | Name structure    | Indexation  | Search         | Inserting    | Deleting    | Memory |
 |:-----------------:|:-----------:|:--------------:|:------------:|:-----------:|:------:|
 | Stack             | -           | -              | O(1)         | O(1)        | O(n)   |
+| Queue             | -           | -              | O(1)         | O(1)        | O(n)   |
 
 
 

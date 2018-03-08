@@ -6,48 +6,69 @@ typedef struct Stack {
 	struct Stack* last;
 } Stack;
 
-#define isEmpty(topElem) (topElem == NULL)
+size_t _size;
+
+#define size() (_size)
+#define isEmpty(stack) (stack == NULL)
 
 Stack* init()
 {
+	_size = 0;
 	return NULL;
 }
 
-void push(Stack** topElem, int value)
+void push(Stack** stack, int value)
 {
-	if(topElem)
+	if(!isEmpty(*stack))
 	{
 		Stack* newElem = (Stack*) malloc(sizeof(Stack));
 		newElem->value = value;
-		newElem->last = *topElem;
-		*topElem = newElem;
+		newElem->last = *stack;
+		*stack = newElem;
 	}
 	else 
 	{
-		*topElem = (Stack*) malloc(sizeof(Stack));
-		(*topElem)->value = value;
-		(*topElem)->last = NULL;
+		*stack = (Stack*) malloc(sizeof(Stack));
+		(*stack)->value = value;
+		(*stack)->last = NULL;
 	}	
+	_size++;
 }
 
-void pop(Stack** topElem)
+void pop(Stack** stack)
 {
-	Stack* tmpPtr;
-	tmpPtr = *topElem;
-	*topElem = (*topElem)->last;
-	free(tmpPtr);
-}
-
-int top(Stack* topElem)
-{
-	return topElem->value;
-}
-
-void clear(Stack** topElem)
-{
-	while(!isEmpty(*topElem))
+	if(!isEmpty(*stack))
 	{
-		pop(topElem);	
+		Stack* tmpPtr;
+		tmpPtr = *stack;
+		*stack = (*stack)->last;
+		free(tmpPtr);
+		_size--;
+	}
+	else
+	{
+		fprintf(stderr, "Queue is empty\n");
+	}
+}
+
+int top(Stack* stack)
+{
+	if(!isEmpty(stack))
+	{
+		return stack->value;
+	}
+	else
+	{
+		fprintf(stderr, "Stack is empty\n");
+		return -1;
+	}
+}
+
+void clear(Stack** stack)
+{
+	while(!isEmpty(*stack))
+	{
+		pop(stack);	
 	}
 }
 
@@ -66,7 +87,7 @@ int main()
 		pop(&stack);
 	}
 	printf(isEmpty(stack) ? "Stack is empty\n" : "Stack isn't empty\n");
-	return 0;
+	return EXIT_SUCCESS;
 }
 
 
