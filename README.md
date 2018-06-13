@@ -1,10 +1,9 @@
-# The Algorithms in C/C++
+# The Algorithms in C++
 
 These algorithms are the demonstration purposes only. There are
-many algorithms implementations in the C/C++ standard 
+many algorithms implementations in the C++ standard 
 library that are much better for performance reasons. This 
 project contains the following algorithms...
-
 
 ## Sorting
 
@@ -22,8 +21,6 @@ project contains the following algorithms...
 | Stack             | -           | -              | O(1)         | O(1)        | O(n)   |
 | Queue             | -           | -              | O(1)         | O(1)        | O(n)   |
 
-
-
 ## Search
 
 | Name algorithm    | Data Structure | Average result | Worse result |
@@ -31,6 +28,11 @@ project contains the following algorithms...
 | Linear search     | Array          | O(n)           | O(n)         |
 | Binary search     | Sorted array   | O(log(n))      | O(log(n))    |
 
+## Math
 
-Other algorithms will be added later. Please follow 
-the news.
+| Name algorithm                           | 
+|:----------------------------------------:|
+| Greatest Common Divisor(GCD)             |
+
+
+Other algorithms will be added later. Please follow the news.
