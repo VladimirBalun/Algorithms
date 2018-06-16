@@ -33,6 +33,7 @@ project contains the following algorithms...
 | Name algorithm                           | 
 |:----------------------------------------:|
 | Greatest Common Divisor(GCD)             |
+| Raise a power(Power)                     |
 
 
 Other algorithms will be added later. Please follow the news.
