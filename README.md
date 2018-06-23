@@ -35,6 +35,7 @@ project contains the following algorithms...
 |:----------------------------------------:|
 | Greatest Common Divisor(GCD)             |
 | Raise a power(Power)                     |
+| Search simple factors                    |
 
 
 Other algorithms will be added later. Please follow the news.
