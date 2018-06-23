@@ -20,6 +20,7 @@ project contains the following algorithms...
 |:-----------------:|:-----------:|:--------------:|:------------:|:-----------:|:------:|
 | Stack             | -           | -              | O(1)         | O(1)        | O(n)   |
 | Queue             | -           | -              | O(1)         | O(1)        | O(n)   |
+| Binary Tree       | O(log(n))   | O(log(n))      | O(log(n))    | O(log(n))   | O(n)   |
 
 ## Search
 
