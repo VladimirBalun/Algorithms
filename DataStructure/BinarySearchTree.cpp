@@ -1,13 +1,13 @@
 #include <iostream>
 
 template<typename T>
-class BinaryTree 
+class BinarySearchTree 
 {
 public:
-	explicit BinaryTree() : size(0) {}
-	explicit BinaryTree(const BinaryTree& other);
-	explicit BinaryTree(BinaryTree&& other);
-	BinaryTree& operator = (const BinaryTree& other);
+	explicit BinarySearchTree() : size(0) {}
+	explicit BinarySearchTree(const BinarySearchTree& other);
+	explicit BinarySearchTree(BinarySearchTree&& other);
+	BinarySearchTree& operator = (const BinarySearchTree& other);
 
 	void add(const T& value);
 	void remove(const T& value);
@@ -19,7 +19,7 @@ public:
 	bool isConatains(const T& value) const;
 	bool isEmpty() const;
 
-	~BinaryTree();
+	~BinarySearchTree();
 private:
 	struct Node
 	{
@@ -40,14 +40,14 @@ private:
 };
 
 template<typename T>
-BinaryTree<T>::BinaryTree(const BinaryTree& other)
+BinarySearchTree<T>::BinarySearchTree(const BinarySearchTree& other)
 {
 	root = copyNode(other.root);
 	size = other.size;
 }
 
 template<typename T>
-BinaryTree<T>::BinaryTree(BinaryTree&& other)
+BinarySearchTree<T>::BinarySearchTree(BinarySearchTree&& other)
 {
 	root = other.root;
 	size = other.size;
@@ -56,7 +56,7 @@ BinaryTree<T>::BinaryTree(BinaryTree&& other)
 }
 
 template<typename T>
-auto BinaryTree<T>::copyNode(Node* node) -> Node*
+auto BinarySearchTree<T>::copyNode(Node* node) -> Node*
 {
 	if (node == nullptr)
 	{
@@ -71,7 +71,7 @@ auto BinaryTree<T>::copyNode(Node* node) -> Node*
 }
 
 template<typename T>
-BinaryTree<T>& BinaryTree<T>::operator = (const BinaryTree& other)
+BinarySearchTree<T>& BinarySearchTree<T>::operator = (const BinarySearchTree& other)
 {
 	if (!isEmpty()) 
 	{
@@ -84,13 +84,13 @@ BinaryTree<T>& BinaryTree<T>::operator = (const BinaryTree& other)
 }
 
 template<typename T>
-bool BinaryTree<T>::isEmpty() const
+bool BinarySearchTree<T>::isEmpty() const
 {
 	return size == 0;
 }
 
 template<typename T>
-void BinaryTree<T>::add(const T& value)
+void BinarySearchTree<T>::add(const T& value)
 {
 	if (isEmpty()) 
 	{
@@ -107,7 +107,7 @@ void BinaryTree<T>::add(const T& value)
 }
 
 template<typename T>
-void BinaryTree<T>::addNode(Node* node, const T& value)
+void BinarySearchTree<T>::addNode(Node* node, const T& value)
 {
 	if (value < node->value) 
 	{
@@ -142,7 +142,7 @@ void BinaryTree<T>::addNode(Node* node, const T& value)
 }
 
 template<typename T>
-bool BinaryTree<T>::isConatains(const T& value) const
+bool BinarySearchTree<T>::isConatains(const T& value) const
 {
 	if (isEmpty())
 	{
@@ -154,7 +154,7 @@ bool BinaryTree<T>::isConatains(const T& value) const
 }
 
 template<typename T>
-auto BinaryTree<T>::findNodeWithParent(const T& value, Node*& parent) const -> Node*
+auto BinarySearchTree<T>::findNodeWithParent(const T& value, Node*& parent) const -> Node*
 {
 	Node* tmpPtr = root;
 	parent = nullptr;
@@ -179,7 +179,7 @@ auto BinaryTree<T>::findNodeWithParent(const T& value, Node*& parent) const -> N
 }
 
 template<typename T>
-void BinaryTree<T>::remove(const T& value)
+void BinarySearchTree<T>::remove(const T& value)
 {
 	if (isEmpty()) 
 	{
@@ -219,7 +219,7 @@ void BinaryTree<T>::remove(const T& value)
 }
 
 template<typename T>
-void BinaryTree<T>::clear()
+void BinarySearchTree<T>::clear()
 {
 	if (!isEmpty()) 
 	{
@@ -229,7 +229,7 @@ void BinaryTree<T>::clear()
 }
 
 template<typename T>
-void BinaryTree<T>::removeNode(Node* node)
+void BinarySearchTree<T>::removeNode(Node* node)
 {
 	if (node != nullptr)
 	{
@@ -240,13 +240,13 @@ void BinaryTree<T>::removeNode(Node* node)
 }
 
 template<typename T>
-size_t BinaryTree<T>::getSize() const
+size_t BinarySearchTree<T>::getSize() const
 {
 	return size;
 }
 
 template<typename T>
-size_t BinaryTree<T>::getDepth() const
+size_t BinarySearchTree<T>::getDepth() const
 {
 	if (isEmpty()) 
 	{
@@ -257,7 +257,7 @@ size_t BinaryTree<T>::getDepth() const
 }
 
 template<typename T>
-size_t BinaryTree<T>::findMaxDepth(Node* node) const
+size_t BinarySearchTree<T>::findMaxDepth(Node* node) const
 {
 	if (node == nullptr) 
 	{
@@ -279,19 +279,19 @@ size_t BinaryTree<T>::findMaxDepth(Node* node) const
 }
 
 template<typename T>
-BinaryTree<T>::~BinaryTree()
+BinarySearchTree<T>::~BinarySearchTree()
 {
 	clear();
 }
 
 int main()
 {
-	BinaryTree<int> tree;
+	BinarySearchTree<int> tree;
 	tree.add(5);
 	tree.add(4);
 	tree.add(6);
 
-	BinaryTree<int> tree2(tree);
+	BinarySearchTree<int> tree2(tree);
 	tree2.add(12);
 	tree2.add(2);
 	tree2.add(3);

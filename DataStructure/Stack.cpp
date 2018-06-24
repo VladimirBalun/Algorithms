@@ -1,43 +1,97 @@
 #include <iostream>
 
-template <class Type>
+template <typename T>
 class Stack {
 public:
-	Stack() : _size(0) {}
-	void push(Type& value);
+	explicit Stack() : size(0) {}
+	explicit Stack(const Stack& other);
+	explicit Stack(Stack&& other);
+	Stack& operator = (const Stack& other);
+
+	void push(const T& value);
 	void pop();
-	Type top();
-	size_t size();
-	bool isEmpty();
+	
+	T top() const;
+	size_t getSize() const;
+	bool isEmpty() const;
+	
 	~Stack();
 private:
+
 	struct Node {
-		Type value;
+		T value;
 		Node* last;
 	};
-	Node* topElem;
-	size_t _size;	
+
+	// recursive
+	Node* copyNode(Node* other);
+
+	Node* head;
+	size_t size;
 };
 
-template <class Type>
-void Stack<Type>::push(Type& value)
+template <typename  T>
+Stack<T>::Stack(const Stack& other)
+{
+	head = copyNode(other.head);
+	size = other.size;
+}
+
+template <typename T>
+Stack<T>::Stack(Stack&& other)
+{
+	head = other.head;
+	size = other.size;
+	other.head = nullptr;
+	other.size = 0;
+}
+
+template <typename T>
+Stack<T>& Stack<T>::operator = (const Stack& other)
+{
+	while (!isEmpty())
+	{
+		pop();
+	}
+
+	head = copyNode(other.head);
+	size = other.size;
+	return *this;
+}
+
+template<typename T>
+auto Stack<T>::copyNode(Node* other) -> Node*
+{
+	if (other == nullptr) 
+	{
+		return nullptr;
+	}
+
+	Node* newNode = new Node;
+	newNode->value = other->value;
+	newNode->last = copyNode(other->last);
+	return newNode;
+}
+
+template <typename T>
+void Stack<T>::push(const T& value)
 {
 	Node* newElem = new Node;
 	newElem->value = value;
-	newElem->last = topElem;
-	topElem = newElem;
-	_size++;
+	newElem->last = head;
+	head = newElem;
+	size++;
 }
 
-template <class Type>
-void Stack<Type>::pop()
+template <typename T>
+void Stack<T>::pop()
 {
-	if(!isEmpty())
+	if (!isEmpty())
 	{
-		Node* tmpPtr = topElem;	
-		topElem = topElem->last;
+		Node* tmpPtr = head;
+		head = head->last;
 		delete tmpPtr;
-		_size--;
+		size--;
 	}
 	else
 	{
@@ -45,12 +99,12 @@ void Stack<Type>::pop()
 	}
 }
 
-template <class Type>
-Type Stack<Type>::top()
+template <typename T>
+T Stack<T>::top() const
 {
-	if(!isEmpty())
+	if (!isEmpty())
 	{
-		return topElem->value;
+		return head->value;
 	}
 	else
 	{
@@ -58,23 +112,23 @@ Type Stack<Type>::top()
 	}
 }
 
-template <class Type>
-size_t Stack<Type>::size()
+template <typename T>
+size_t Stack<T>::getSize() const
 {
-	return _size;
+	return size;
 }
 
-template <class Type>
-bool Stack<Type>::isEmpty()
+template <typename T>
+bool Stack<T>::isEmpty() const
 {
-	return _size == 0; 
+	return size == 0;
 }
 
 
-template <class Type>
-Stack<Type>::~Stack()
-{	
-	while(!isEmpty())
+template <typename T>
+Stack<T>::~Stack()
+{
+	while (!isEmpty())
 	{
 		pop();
 	}
@@ -83,19 +137,19 @@ Stack<Type>::~Stack()
 int main()
 {
 	Stack<int> stack;
-	int ar[] = {4, 6, 7, 2, 8, 8};
-	for(auto &val : ar)
+	Stack<int> stack2;
+	int ar[] = { 4, 6, 7, 2, 8, 8 };
+	for (const auto& val : ar)
 	{
 		stack.push(val);
 	}
-	while(!stack.isEmpty())
+	
+	stack2 = stack;
+	while (!stack2.isEmpty())
 	{
-		std::cout << stack.top() << std::endl;
-		stack.pop();
+		std::cout << stack2.top() << std::endl;
+		stack2.pop();
 	}
-	std::cout << (stack.isEmpty() ? "Stack is empty" : "Stack isn' empty") << std::endl;
-	return 0;
+
+	return EXIT_SUCCESS;
 }
-
-
-
