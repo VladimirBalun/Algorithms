@@ -29,6 +29,12 @@ project contains the following algorithms...
 | Linear search     | Array          | O(n)           | O(n)         |
 | Binary search     | Sorted array   | O(log(n))      | O(log(n))    |
 
+## Caching
+
+| Name algorithm                           | 
+|:----------------------------------------:|
+| First in, first out(FIFO)                |
+
 ## Math
 
 | Name algorithm                           | 
