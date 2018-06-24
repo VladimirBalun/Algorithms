@@ -5,16 +5,13 @@ many algorithms implementations in the C++ standard
 library that are much better for performance reasons. This 
 project contains the following algorithms...
 
-## Sorting
+## [Caching](./Caching)
 
-| Name algorithm    |Data Structure | Best result | Average result | Worse result |
-|:-----------------:|:-------------:|:-----------:|:--------------:|:------------:|
-| Bubble Sorting    |  Array        | O(n)        | O(n^2)         | O(n^2)       |
-| Insertion Sorting |  Array        | O(n^2)      | O(n^2)         | O(n^2)       |
-| Selection Sorting |  Array        | O(n)        | O(n^2)         | O(n^2)       |
-| Quick Sorting     |  Array        | O(log(n))   | O(log(n))      | O(n^2)       |
+| Name algorithm                           | 
+|:----------------------------------------:|
+| First in, first out(FIFO)                |
 
-## Data structure
+## [Data structure](./DataStructure)
 
 | Name structure    | Indexation  | Search         | Inserting    | Deleting    | Memory |
 |:-----------------:|:-----------:|:--------------:|:------------:|:-----------:|:------:|
@@ -22,20 +19,7 @@ project contains the following algorithms...
 | Queue             | -           | -              | O(1)         | O(1)        | O(n)   |
 | Binary Tree       | O(log(n))   | O(log(n))      | O(log(n))    | O(log(n))   | O(n)   |
 
-## Search
-
-| Name algorithm    | Data Structure | Average result | Worse result |
-|:-----------------:|:--------------:|:--------------:|:------------:|
-| Linear search     | Array          | O(n)           | O(n)         |
-| Binary search     | Sorted array   | O(log(n))      | O(log(n))    |
-
-## Caching
-
-| Name algorithm                           | 
-|:----------------------------------------:|
-| First in, first out(FIFO)                |
-
-## Math
+## [Math](./Math)
 
 | Name algorithm                           | 
 |:----------------------------------------:|
@@ -43,5 +27,26 @@ project contains the following algorithms...
 | Raise a power(Power)                     |
 | Search simple factors                    |
 
+## [Multithreading](./Multithreading)
+
+| Name algorithm                           | 
+|:----------------------------------------:|
+| Producer and consumer                    |
+
+## [Search](./Search)
+
+| Name algorithm    | Data Structure | Average result | Worse result |
+|:-----------------:|:--------------:|:--------------:|:------------:|
+| Linear search     | Array          | O(n)           | O(n)         |
+| Binary search     | Sorted array   | O(log(n))      | O(log(n))    |
+
+## [Sorting](./Sorting)
+
+| Name algorithm    |Data Structure | Best result | Average result | Worse result |
+|:-----------------:|:-------------:|:-----------:|:--------------:|:------------:|
+| Bubble Sorting    |  Array        | O(n)        | O(n^2)         | O(n^2)       |
+| Insertion Sorting |  Array        | O(n^2)      | O(n^2)         | O(n^2)       |
+| Selection Sorting |  Array        | O(n)        | O(n^2)         | O(n^2)       |
+| Quick Sorting     |  Array        | O(log(n))   | O(log(n))      | O(n^2)       |
 
 Other algorithms will be added later. Please follow the news.
