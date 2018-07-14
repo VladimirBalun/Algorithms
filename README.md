@@ -42,6 +42,12 @@ project contains the following algorithms...
 | Linear search     | Array          | O(n)           | O(n)         |
 
 
+## SmartPointers
+
+| Name pointer                             |
+|:----------------------------------------:|
+| Auto Pointer                             |
+
 ## Sorting
 
 | Name algorithm    |Data Structure | Best result | Average result | Worse result |
