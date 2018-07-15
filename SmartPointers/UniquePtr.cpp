@@ -1,31 +1,31 @@
 #include <iostream>
 
 template <typename T>
-class AutoPtr
+class UniquePtr
 {
 public:
-    explicit AutoPtr(T* element) : elem(element) {}
-    AutoPtr(AutoPtr& other);
-    AutoPtr& operator = (AutoPtr& other);
+    explicit UniquePtr(T* element) : elem(element) {}
+    UniquePtr(UniquePtr&& other);
+    UniquePtr& operator = (UniquePtr&& other);
     T operator * () const;
     T* operator -> () const;
     T* release();
     void reset(T* element);
     T* get() const;
-    ~AutoPtr();
+    ~UniquePtr();
 private:
     T* elem;
 };
 
 template <typename T>
-AutoPtr<T>::AutoPtr(AutoPtr& other)
+UniquePtr<T>::UniquePtr(UniquePtr&& other)
 {
     elem = other.elem;
     other.elem = nullptr;
 }
 
 template <typename T>
-AutoPtr<T>& AutoPtr<T>::operator = (AutoPtr& other)
+UniquePtr<T>& UniquePtr<T>::operator = (UniquePtr&& other)
 {
     if (elem)
     {
@@ -37,19 +37,19 @@ AutoPtr<T>& AutoPtr<T>::operator = (AutoPtr& other)
 }
 
 template <typename T>
-T AutoPtr<T>::operator * () const
+T UniquePtr<T>::operator * () const
 {
     return *elem;
 }
 
 template <typename T>
-T* AutoPtr<T>::operator -> () const
+T* UniquePtr<T>::operator -> () const
 {
     return elem;
 }
 
 template <typename T>
-T* AutoPtr<T>::release()
+T* UniquePtr<T>::release()
 {
     T* tmpPtr = elem;
     elem = nullptr;
@@ -57,7 +57,7 @@ T* AutoPtr<T>::release()
 }
 
 template <typename T>
-void AutoPtr<T>::reset(T* element)
+void UniquePtr<T>::reset(T* element)
 {
     if (elem)
     {
@@ -67,13 +67,13 @@ void AutoPtr<T>::reset(T* element)
 }
 
 template <typename T>
-T* AutoPtr<T>::get() const
+T* UniquePtr<T>::get() const
 {
     return elem;
 }
 
 template <typename T>
-AutoPtr<T>::~AutoPtr()
+UniquePtr<T>::~UniquePtr()
 {
     if (elem)
     {
@@ -84,8 +84,8 @@ AutoPtr<T>::~AutoPtr()
 int main()
 {
     std::string* str = new std::string("Hello world");
-    AutoPtr<std::string> ptr1(str);
-    AutoPtr<std::string> ptr2 = ptr1;
+    UniquePtr<std::string> ptr1(str);
+    UniquePtr<std::string> ptr2 = std::move(ptr1);
     std::cout << *ptr2 << std::endl;
     return EXIT_SUCCESS;
 }

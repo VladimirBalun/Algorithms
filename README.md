@@ -47,6 +47,7 @@ project contains the following algorithms...
 | Name pointer                             |
 |:----------------------------------------:|
 | Auto Pointer                             |
+| Unique Pointer                           |
 
 ## Sorting
 
