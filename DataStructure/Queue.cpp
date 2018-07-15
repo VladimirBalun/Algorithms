@@ -1,109 +1,187 @@
 #include <iostream>
 
-template <class Type>
+template <typename T>
 class Queue {
 public:
-	Queue() : _size(0) {}
-	void push(Type& value);
-	void pop();
-	Type front();
-	inline size_t size();
-	inline bool isEmpty();
-	~Queue();
+    explicit Queue() : size(0) {}
+    explicit Queue(const Queue& other);
+    explicit Queue(Queue&& other);
+    Queue& operator = (const Queue& other);
+    Queue& operator = (Queue&& other);
+
+    void push(T& value);
+    void pop();
+    void clear();
+
+    T front() const;
+    inline size_t getSize() const;
+    inline bool isEmpty() const;
+
+    ~Queue();
 private:
-	struct Node {
-		Type value;
-		Node* next;
-	};
-	Node* frontElem;
-	Node* topElem;
-	size_t _size;	
+
+    struct Node {
+        T value;
+        Node* next;
+    };
+
+    //recursive
+    Node* copyNode(Node* other);
+
+    Node* head;
+    size_t size;
 };
 
-template <class Type>
-void Queue<Type>::push(Type& value)
+template <typename T>
+Queue<T>::Queue(const Queue& other)
 {
-	if(isEmpty())
-	{
-		frontElem = new Node;
-		frontElem->value = value;
-		topElem = frontElem;		
-	}
-	else
-	{
-		topElem->next = new Node;
-		topElem = topElem->next;
-		topElem->value = value;
-	}
-	_size++;
+    head = copyNode(other.head);
+    size = other.size;
 }
 
-template <class Type>
-void Queue<Type>::pop()
+template <typename T>
+Queue<T>::Queue(Queue&& other)
 {
-	if(!isEmpty())
-	{
-		Node* tmpPtr = frontElem;
-		frontElem = frontElem->next;
-		delete tmpPtr;
-		_size--;
-	}
-	else
- 	{
-		throw std::runtime_error("Queue is empty");
-	}
+    head = other.head;
+    other.head = nullptr;
+    size = other.size;
+    other.size = 0;
 }
 
-template <class Type>
-Type Queue<Type>::front()
+template <typename T>
+Queue<T>& Queue<T>::operator = (const Queue& other)
 {
-	if(!isEmpty())
-	{
-		return frontElem->value;
-	}
-	else
-	{
-		throw std::runtime_error("Queue is empty");
-	}
+    if (!isEmpty())
+    {
+        clear();
+    }
+
+    head = copyNode(other.head);
+    size = other.size;
+	return *this;
+}
+
+template <typename T>
+Queue<T>& Queue<T>::operator = (Queue&& other)
+{
+    if (!isEmpty())
+    {
+        clear();
+    }
+
+    head = other.head;
+    other.head = nullptr;
+    size = other.size;
+    other.size = 0;
+	return *this;
+}
+
+template <typename T>
+auto Queue<T>::copyNode(Node* other) -> Node*
+{
+    if (other)
+    {
+        return nullptr;
+    }
+
+    Node* newNode = new Node;
+    newNode->value = other->value;
+    newNode->next = copyNode(other->next);
+    return newNode;
+}
+
+template <typename T>
+void Queue<T>::push(T& value)
+{
+    if(isEmpty())
+    {
+        head = new Node;
+        head->value = value;
+    }
+    else
+    {
+        Node* newHead = new Node;
+        newHead->value = value;
+        newHead->next = head;
+        head = newHead;
+    }
+    size++;
+}
+
+template <typename T>
+void Queue<T>::pop()
+{
+    if(!isEmpty())
+    {
+        Node* tmpPtr = head;
+        head = head->next;
+        delete tmpPtr;
+        size--;
+    }
+    else
+    {
+        throw std::runtime_error("Queue is empty");
+    }
+}
+
+template <typename T>
+void Queue<T>::clear()
+{
+    while(!isEmpty())
+    {
+        pop();
+    }
+}
+
+template <typename T>
+T Queue<T>::front() const
+{
+    if(!isEmpty())
+    {
+        return head->value;
+    }
+    else
+    {
+        throw std::runtime_error("Queue is empty");
+    }
 }
 
 
-template <class Type>
-size_t Queue<Type>::size()
+template <typename T>
+size_t Queue<T>::getSize() const
 {
-	return _size;
+    return size;
 }
 
-template <class Type>
-bool Queue<Type>::isEmpty()
+template <typename T>
+bool Queue<T>::isEmpty() const
 {
-	return _size == 0; 
+    return size == 0;
 }
 
-template <class Type>
-Queue<Type>::~Queue()
-{	
-	while(!isEmpty())
-	{
-		pop();
-	}
+template <typename T>
+Queue<T>::~Queue()
+{
+    clear();
 }
 
 int main()
 {
-	Queue<int> queue;
-	int ar[] = {4, 6, 7, 2, 8, 8};
-	for(auto &val : ar)
-	{
-		queue.push(val);
-	}
-	std::cout << "Size queue: " << queue.size() << std::endl;
-	while(!queue.isEmpty())
-	{
-		std::cout << queue.front() << std::endl;
-		queue.pop();
-	}
-	std::cout << (queue.isEmpty() ? "Queue is empty" : "Queue isn' empty") << std::endl;
-	return 0;
+    Queue<int> queue1;
+    Queue<int> queue2;
+    int ar[] = {4, 6, 7, 2, 8, 8};
+    for(auto &val : ar)
+    {
+        queue1.push(val);
+    }
+
+    queue2 = std::move(queue1);
+    while(!queue2.isEmpty())
+    {
+        std::cout << queue2.front() << std::endl;
+        queue2.pop();
+    }
+
+    return EXIT_SUCCESS;
 }
 
