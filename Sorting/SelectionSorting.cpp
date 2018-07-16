@@ -1,41 +1,45 @@
-#include <iostream>
+##include <iostream>
 #include <vector>
 
-template <typename Type>
-void selectionSort(Type &ar)
+template <typename Collection, typename Comparator>
+void selectionSort(Collection& ar, size_t size, Comparator comparator)
 {
-	size_t tmp = 0;
-	for (size_t i = 0; i < ar.size(); i++)
-	{
-		tmp = i;
-		for (size_t j = i; j < ar.size(); j++)
-		{
-			if(ar[tmp] > ar[j])
-			{
-				tmp = j;
-			}
-		}
-		if(tmp != i)
-		{
-			std::swap(ar[i], ar[tmp]);
-		}
-	}
+    size_t key;
+    for (size_t i = 0; i < size - 1; i++)
+    {
+        key = i;
+        for (size_t j = i; j < size; j++)
+        {
+           if (comparator(ar[key], ar[j]))
+           {
+               key = j;
+           }
+        }
+
+        if (key != i)
+        {
+            std::swap(ar[i], ar[key]);
+        }
+    }
 }
 
 int main()
 {
-	std::vector<int> vector = {56, 65, 89, 0, 0, 34, 23, 5, 2, 7};
-	std::cout << "Not sorted array: ";
-	for(auto& val : vector)
-	{
-		std::cout << val << " ";
-	}
-	selectionSort(vector);
-	std::cout << std::endl << "Sorted array: ";
-	for(auto& val : vector)
-	{
-		std::cout << val << " ";
-	}
-	return 0;
-}
+    std::vector<int> vector = { 4, 7, 1, 5, 2, 9, 4, 7, 2, 9, 4 };
 
+    std::cout << "Not sorted array: ";
+    for (const auto& val : vector)
+    {
+        std::cout << val << " ";
+    }
+
+    selectionSort(vector, vector.size(), [](int a, int b) { return a > b; });
+
+    std::cout << std::endl << "Sorted array: ";
+    for (const auto& val : vector)
+    {
+        std::cout << val << " ";
+    }
+
+    return EXIT_SUCCESS;
+}
