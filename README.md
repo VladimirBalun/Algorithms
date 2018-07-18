@@ -57,6 +57,7 @@ project contains the following algorithms...
 | Insertion Sorting |  Array        | O(n^2)      | O(n^2)         | O(n^2)       |
 | Quick Sorting     |  Array        | O(log(n))   | O(log(n))      | O(n^2)       |
 | Selection Sorting |  Array        | O(n)        | O(n^2)         | O(n^2)       |
-| Shell Sorting     |  Array        | O(log(n))   | O(n^2)         | O(n^2)       |
+| Shell Sorting     |  Array        | O(n^2)      | O(n^2)         | O(n^2)       |
+| Stupid Sorting    |  Array        | O(n)        | O(n^3)         | O(n^3)       |
 
 Other algorithms will be added later. Please follow the news.
