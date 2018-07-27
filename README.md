@@ -15,6 +15,7 @@ project contains the following algorithms...
 
 | Name structure     | Indexation  | Search         | Inserting    | Deleting    | Memory |
 |:------------------:|:-----------:|:--------------:|:------------:|:-----------:|:------:|
+| Binary Heap        | -           | -              | O(log(n))    | O(log(n))   | O(n)   |
 | Binary Search Tree | O(log(n))   | O(log(n))      | O(log(n))    | O(log(n))   | O(n)   |
 | LinkedList         | O(n)        | O(n)           | O(1)         | O(1)        | O(n)   |
 | Queue              | -           | -              | O(1)         | O(1)        | O(n)   |
