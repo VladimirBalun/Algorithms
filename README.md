@@ -28,6 +28,7 @@ project contains the following algorithms...
 | Greatest Common Divisor(GCD)             |
 | Raise a power(Power)                     |
 | Search simple factors                    |
+| Math vectors                             |
 
 ## Multithreading
 
