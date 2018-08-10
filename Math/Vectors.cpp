@@ -56,7 +56,7 @@ T subVectors(const T& vec1, const T& vec2)
 }
 
 template <typename T>
-void scalarMulVectors(T& vector, int value)
+void mulVectorOnScalar(T &vector, int value)
 {
     for (auto& elem : vector)
     {
@@ -92,7 +92,7 @@ int main()
     std::vector<int> vec4 = subVectors(vec1, vec2);
 
     normalizeVector(vec1);
-    scalarMulVectors(vec2, 5);
+    mulVectorOnScalar(vec2, 5);
 
     return EXIT_SUCCESS;
 }

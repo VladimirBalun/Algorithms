@@ -26,9 +26,10 @@ project contains the following algorithms...
 | Name algorithm                           | 
 |:----------------------------------------:|
 | Greatest Common Divisor(GCD)             |
+| Matrices                                 |
 | Raise a power(Power)                     |
 | Search simple factors                    |
-| Math vectors                             |
+| Vectors                                  |
 
 ## Multithreading
 
