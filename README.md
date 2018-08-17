@@ -11,6 +11,12 @@ project contains the following algorithms...
 |:----------------------------------------:|
 | First in, first out(FIFO)                |
 
+## Cryptography
+
+| Name algorithm                           | 
+|:----------------------------------------:|
+| Caesar cipher                            |
+
 ## Data structure
 
 | Name structure     | Indexation  | Search         | Inserting    | Deleting    | Memory |
