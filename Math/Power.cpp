@@ -12,14 +12,14 @@ int slowPower(int value, size_t power)
 
 long fastPower(long value, size_t power) {
 	long result = 1;
-	while (power > 0) 
+	while (power)//in C++, everything that is not 0 is considered true (and 0 is false) 
 	{
-		if (power % 2 == 1) 
+		if (power&1)//fast way to know if number is odd 
 		{
 			result *= value;
 		}
 		value *= value;
-		power /= 2;
+		power >>=1;//fast way to divide by 2
 	}
 	return result;
 }
