@@ -114,7 +114,6 @@ void LinkedList<T>::erase(Iterator& iterator)
 	}
 	else if (tmpNext == nullptr)
 	{
-
 		iterator.current = iterator.current->prev;
 		popBack();
 	}
@@ -138,9 +137,7 @@ template<typename T>
 LinkedList<T>& LinkedList<T>::operator=(const LinkedList& other)
 {
 	if (isEmpty())
-	{
 		clear();
-	}
 
 	copyLinkedList(other);
 	return *this;
@@ -247,9 +244,7 @@ template<typename T>
 void LinkedList<T>::popFront()
 {
 	if (isEmpty())
-	{
 		throw std::runtime_error("List is empty.");
-	}
 
 	Node* tmpPtr = begin;
 	begin = begin->next;
@@ -261,15 +256,14 @@ template<typename T>
 void LinkedList<T>::clear()
 {
 	if (isEmpty()) 
-	{
 		return;
-	}
 
 	while (begin != end)
 	{
 		begin = begin->next;
 		delete begin->prev;
 	}
+	
 	delete end;
 	size = 0;
 }
@@ -301,7 +295,6 @@ LinkedList<T>::~LinkedList()
 int main()
 {
 	LinkedList<int> list;
-
 	list.pushBack(10);
 	list.pushFront(5);
 	list.pushBack(20);
@@ -309,13 +302,9 @@ int main()
 	for (LinkedList<int>::Iterator it = list.getBeginList(); it != list.getEndList(); it++)
 	{
 		if (*it == 5) 
-		{
 			list.erase(it);
-		}
 		if (*it == 10)
-		{
 			list.insert(it, 15);
-		}
 	}
 
 	while (!list.isEmpty())

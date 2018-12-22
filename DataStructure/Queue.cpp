@@ -1,7 +1,13 @@
 #include <iostream>
 
 template <typename T>
-class Queue {
+class Queue 
+{
+	struct Node 
+	{
+        T value;
+        Node* next;
+    };
 public:
     explicit Queue() : size(0) {}
     explicit Queue(const Queue& other);
@@ -9,7 +15,7 @@ public:
     Queue& operator = (const Queue& other);
     Queue& operator = (Queue&& other);
 
-    void push(T& value);
+    void push(const T& value);
     void pop();
     void clear();
 
@@ -19,12 +25,6 @@ public:
 
     ~Queue();
 private:
-
-    struct Node {
-        T value;
-        Node* next;
-    };
-
     //recursive
     Node* copyNode(Node* other);
 
@@ -79,7 +79,7 @@ Queue<T>& Queue<T>::operator = (Queue&& other)
 template <typename T>
 auto Queue<T>::copyNode(Node* other) -> Node*
 {
-    if (other)
+    if (!other)
     {
         return nullptr;
     }
@@ -91,7 +91,7 @@ auto Queue<T>::copyNode(Node* other) -> Node*
 }
 
 template <typename T>
-void Queue<T>::push(T& value)
+void Queue<T>::push(const T& value)
 {
     if(isEmpty())
     {
@@ -128,22 +128,16 @@ template <typename T>
 void Queue<T>::clear()
 {
     while(!isEmpty())
-    {
         pop();
-    }
 }
 
 template <typename T>
 T Queue<T>::front() const
 {
     if(!isEmpty())
-    {
         return head->value;
-    }
     else
-    {
         throw std::runtime_error("Queue is empty");
-    }
 }
 
 
@@ -170,10 +164,9 @@ int main()
     Queue<int> queue1;
     Queue<int> queue2;
     int ar[] = {4, 6, 7, 2, 8, 8};
+	
     for(auto &val : ar)
-    {
         queue1.push(val);
-    }
 
     queue2 = std::move(queue1);
     while(!queue2.isEmpty())

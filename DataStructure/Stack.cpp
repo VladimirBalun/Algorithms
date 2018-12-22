@@ -1,7 +1,13 @@
 #include <iostream>
 
 template <typename T>
-class Stack {
+class Stack 
+{
+	struct Node 
+	{
+        T value;
+        Node* prev;
+    };
 public:
     explicit Stack() : size(0) {}
     explicit Stack(const Stack& other);
@@ -19,12 +25,6 @@ public:
 
     ~Stack();
 private:
-
-    struct Node {
-        T value;
-        Node* prev;
-    };
-
     // recursive
     Node* copyNode(Node* other);
 
@@ -79,7 +79,7 @@ Stack<T>& Stack<T>::operator = (Stack&& other)
 template<typename T>
 auto Stack<T>::copyNode(Node* other) -> Node*
 {
-    if (other == nullptr)
+    if (!other)
     {
         return nullptr;
     }
@@ -120,22 +120,16 @@ template <typename T>
 void Stack<T>::clear()
 {
     while (!isEmpty())
-    {
         pop();
-    }
 }
 
 template <typename T>
 T Stack<T>::top() const
 {
     if (!isEmpty())
-    {
         return head->value;
-    }
     else
-    {
         throw std::runtime_error("Stack is empty");
-    }
 }
 
 template <typename T>
@@ -162,10 +156,9 @@ int main()
     Stack<int> stack1;
     Stack<int> stack2;
     int ar[] = { 4, 6, 7, 2, 8, 8 };
+	
     for (const auto& val : ar)
-    {
         stack1.push(val);
-    }
 
     stack2 = std::move(stack1);
     while (!stack2.isEmpty())
