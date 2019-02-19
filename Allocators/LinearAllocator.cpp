@@ -1,78 +1,89 @@
 #include <iostream>
-#include <cstdlib>
-#include <limits>  
 
 class LinearAllocator
 {
 public:
-    explicit LinearAllocator(std::size_t memorySize, std::size_t memoryAlignment);
-    void* allocate(std::size_t allocatedSize);
-    void free();
+    explicit LinearAllocator(std::size_t memorySize);
+    explicit LinearAllocator(LinearAllocator&& another) noexcept;
+    LinearAllocator& operator = (LinearAllocator&& another) noexcept;
+    explicit LinearAllocator(const LinearAllocator& another) = delete;
+    LinearAllocator& operator = (const LinearAllocator& another) = delete;
+    void* allocate(std::size_t allocatedSize) noexcept;
+    void deallocate() noexcept;
     ~LinearAllocator();
 private:
-    std::size_t size = 0;
-    std::size_t offset = 0;
-    std::size_t alignment = 0;
-    void* memoryPointer = nullptr;
+    std::size_t mMemorySize = 0;
+    std::size_t mMemoryOffset = 0;
+    void* mBasePointer = nullptr;
 };
 
-LinearAllocator::LinearAllocator(std::size_t memorySize, std::size_t memoryAlignment)
-    : size(memorySize), alignment(memoryAlignment)
+LinearAllocator::LinearAllocator(std::size_t memorySize) : mMemorySize(memorySize)
 {
-    if (size == 0)
-        throw std::runtime_error("Can not allocate 0 byte of the memory.");
+    if (mMemorySize == 0)
+        throw std::runtime_error("Could not allocate 0 byte of the memory.");
 
-    if ( (alignment == 0) && (size % alignment == 0) )
-        throw std::runtime_error("Incorrect alignment for memory allocating.");
-
-    memoryPointer = malloc(size);
-    if (!memoryPointer)
-        throw std::runtime_error("Memory was not allocated");
+    mBasePointer = malloc(mMemorySize);
+    if (!mBasePointer)
+        throw std::runtime_error("Memory was not allocated for allocator.");
 }
 
-void* LinearAllocator::allocate(std::size_t allocatedSize)
+LinearAllocator::LinearAllocator(LinearAllocator&& another) noexcept
 {
-    if (offset + alignment > size)
-        return nullptr;
-
-    std::size_t allocatedPointer = reinterpret_cast<std::size_t>(memoryPointer) + offset;
-    offset += alignment;
-    return reinterpret_cast<void*>(allocatedPointer);
+    mMemorySize = another.mMemorySize;
+    mMemoryOffset = another.mMemoryOffset;
+    mBasePointer = another.mBasePointer;
+    another.mBasePointer = nullptr;
+    another.deallocate();
 }
 
-void LinearAllocator::free()
+LinearAllocator& LinearAllocator::operator = (LinearAllocator&& another) noexcept
 {
-    size = offset = 0;
+    if (this != &another)
+    {
+        mMemorySize = another.mMemorySize;
+        mMemoryOffset = another.mMemoryOffset;
+        mBasePointer = another.mBasePointer;
+        another.mBasePointer = nullptr;
+        another.deallocate();
+    }
+    return *this;
+}
+
+void* LinearAllocator::allocate(std::size_t allocatedSize) noexcept
+{
+    if (mMemoryOffset + allocatedSize > mMemorySize)
+        return nullptr; // Allocator is full
+
+    const std::size_t allocatedAddress = reinterpret_cast<std::size_t>(mBasePointer) + mMemoryOffset;
+    mMemoryOffset += allocatedSize;
+    return reinterpret_cast<void*>(allocatedAddress);
+}
+
+void LinearAllocator::deallocate() noexcept
+{
+    mMemorySize = mMemoryOffset = 0;
 }
 
 LinearAllocator::~LinearAllocator()
 {
-    if (memoryPointer)
-        ::free(memoryPointer);
+    free(mBasePointer);
 }
 
 int main()
 {
     // Test structure for checking allocator
-   struct Vector4d
+    struct Vector4d
     {
         double x, y, z, w;
     };
 
     try
     {
-        LinearAllocator allocator(sizeof(Vector4d) * 100, sizeof(Vector4d));
-        for (std::int32_t i = 0; i < 100; i++)
-        {
-            Vector4d* vector = static_cast<Vector4d*>(allocator.allocate(sizeof(Vector4d)));
-            vector->x = vector->y = vector->z = vector->w = i;
-            std::cout << " Address: " << vector 
-                      << " x: " << vector->x
-                      << " y: " << vector->y
-                      << " z: " << vector->z
-                      << " w: " << vector->w << std::endl;
-        }
-        allocator.free();
+        LinearAllocator allocator(sizeof(Vector4d) * 3);
+        Vector4d* vector1 = static_cast<Vector4d*>(allocator.allocate(sizeof(Vector4d)));
+        Vector4d* vector2 = static_cast<Vector4d*>(allocator.allocate(sizeof(Vector4d)));
+        Vector4d* vector3 = static_cast<Vector4d*>(allocator.allocate(sizeof(Vector4d)));
+        allocator.deallocate();
         return EXIT_SUCCESS;
     }
     catch (const std::exception& e)

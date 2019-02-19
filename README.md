@@ -7,8 +7,10 @@ project contains the following algorithms...
 
 ## Allocators
 
-| Name allocator                           |
-|:----------------------------------------:|
+| Name allocator                           | Allocation | Free |
+|:----------------------------------------:|:----------:|:----:|
+| Linear allocator                         | O(1)       | -    |
+| Pool allocator                           | 0(1)       | O(1) |
 
 ## Caching
 
