@@ -62,18 +62,21 @@ project contains the following algorithms...
 
 | Name pointer                             |
 |:----------------------------------------:|
-| Auto Pointer                             |
-| Unique Pointer                           |
+| Auto smart pointer                       |
+| Unique smart pointer                     |
+| Shared smart pointer                     |
 
 ## Sorting
 
 | Name algorithm    |Data Structure | Best result | Average result | Worse result |
 |:-----------------:|:-------------:|:-----------:|:--------------:|:------------:|
-| Bubble Sorting    |  Array        | O(n)        | O(n^2)         | O(n^2)       |
-| Insertion Sorting |  Array        | O(n^2)      | O(n^2)         | O(n^2)       |
-| Quick Sorting     |  Array        | O(log(n))   | O(log(n))      | O(n^2)       |
-| Selection Sorting |  Array        | O(n)        | O(n^2)         | O(n^2)       |
-| Shell Sorting     |  Array        | O(n^2)      | O(n^2)         | O(n^2)       |
-| Stupid Sorting    |  Array        | O(n)        | O(n^3)         | O(n^3)       |
+| Bubble sorting    |  Array        | O(n)        | O(n^2)         | O(n^2)       |
+| Insertion sorting |  Array        | O(n^2)      | O(n^2)         | O(n^2)       |
+| Quick sorting     |  Array        | O(log(n))   | O(log(n))      | O(n^2)       |
+| Selection sorting |  Array        | O(n)        | O(n^2)         | O(n^2)       |
+| Shell sorting     |  Array        | O(n^2)      | O(n^2)         | O(n^2)       |
+| Stupid sorting    |  Array        | O(n)        | O(n^3)         | O(n^3)       |
+
+---
 
 Other algorithms will be added later. Please follow the news.
