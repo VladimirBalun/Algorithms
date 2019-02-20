@@ -1,91 +1,97 @@
 #include <iostream>
 
-template <typename T>
+template<typename Type>
 class AutoPtr
 {
 public:
-    explicit AutoPtr(T* element) : elem(element) {}
-    AutoPtr(AutoPtr& other);
-    AutoPtr& operator = (AutoPtr& other);
-    T operator * () const;
-    T* operator -> () const;
-    T* release();
-    void reset(T* element);
-    T* get() const;
+    explicit AutoPtr(Type* pointer) noexcept : mPointer(pointer) {}
+    explicit AutoPtr(AutoPtr& another) noexcept;
+    AutoPtr& operator = (AutoPtr& another) noexcept;
+    Type operator * () const noexcept;
+    Type* operator -> () const noexcept;
+    operator bool() const noexcept;
+    Type* get() const noexcept;
+    Type* release() noexcept;
+    void reset(Type* pointer = nullptr) noexcept;
     ~AutoPtr();
 private:
-    T* elem;
+    Type* mPointer;
 };
 
-template <typename T>
-AutoPtr<T>::AutoPtr(AutoPtr& other)
+template<typename Type>
+AutoPtr<Type>::AutoPtr(AutoPtr& another) noexcept
 {
-    elem = other.elem;
-    other.elem = nullptr;
+    mPointer = another.mPointer;
+    another.mPointer = nullptr;
 }
 
-template <typename T>
-AutoPtr<T>& AutoPtr<T>::operator = (AutoPtr& other)
+template<typename Type>
+AutoPtr<Type>& AutoPtr<Type>::operator = (AutoPtr& another) noexcept
 {
-    if (elem)
+    if (this != &another) 
     {
-        delete elem;
+        delete mPointer;
+        mPointer = another.mPointer;
+        another.mPointer = nullptr;
     }
-    elem = other.elem;
-    other.elem = nullptr;
     return *this;
 }
 
-template <typename T>
-T AutoPtr<T>::operator * () const
+template<typename Type>
+Type AutoPtr<Type>::operator * () const noexcept
 {
-    return *elem;
+    return *mPointer;
 }
 
-template <typename T>
-T* AutoPtr<T>::operator -> () const
+template<typename Type>
+Type* AutoPtr<Type>::operator -> () const noexcept
 {
-    return elem;
+    return mPointer;
 }
 
-template <typename T>
-T* AutoPtr<T>::release()
+template<typename Type>
+AutoPtr<Type>::operator bool() const noexcept
 {
-    T* tmpPtr = elem;
-    elem = nullptr;
-    return tmpPtr;
+    return mPointer != nullptr;
 }
 
-template <typename T>
-void AutoPtr<T>::reset(T* element)
+template<typename Type>
+Type* AutoPtr<Type>::get() const noexcept
 {
-    if (elem)
-    {
-        delete elem;
-    }
-    elem = element;
+    return mPointer;
 }
 
-template <typename T>
-T* AutoPtr<T>::get() const
+template<typename Type>
+Type* AutoPtr<Type>::release() noexcept
 {
-    return elem;
+    Type* tmp = mPointer;
+    mPointer = nullptr;
+    return tmp;
 }
 
-template <typename T>
-AutoPtr<T>::~AutoPtr()
+template<typename Type>
+void AutoPtr<Type>::reset(Type* pointer) noexcept
 {
-    if (elem)
-    {
-        delete elem;
-    }
+    delete mPointer;
+    mPointer = pointer;
+}
+
+template<typename Type>
+AutoPtr<Type>::~AutoPtr()
+{
+    delete mPointer;
 }
 
 int main()
 {
-    std::string* str = new std::string("Hello world");
-    AutoPtr<std::string> ptr1(str);
-    AutoPtr<std::string> ptr2 = ptr1;
-    std::cout << *ptr2 << std::endl;
+    // Test structure for testing
+    struct Vector2d
+    {
+        double x, y;
+    };
+
+    AutoPtr<Vector2d> ptr1(new Vector2d());
+    AutoPtr<Vector2d> ptr2(ptr1);
+    std::cout << "x: " << ptr2->x << " y: " << ptr2->y << std::endl;
     return EXIT_SUCCESS;
 }

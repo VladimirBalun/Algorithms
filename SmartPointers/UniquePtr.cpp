@@ -1,91 +1,99 @@
 #include <iostream>
 
-template <typename T>
+template<typename Type>
 class UniquePtr
 {
 public:
-    explicit UniquePtr(T* element) : elem(element) {}
-    UniquePtr(UniquePtr&& other);
-    UniquePtr& operator = (UniquePtr&& other);
-    T operator * () const;
-    T* operator -> () const;
-    T* release();
-    void reset(T* element);
-    T* get() const;
+    explicit UniquePtr(Type* pointer) noexcept : mPointer(pointer) {}
+    explicit UniquePtr(const UniquePtr& another) = delete;
+    UniquePtr& operator = (const UniquePtr& another) = delete;
+    explicit UniquePtr(UniquePtr&& another) noexcept;
+    UniquePtr& operator = (UniquePtr&& another) noexcept;
+    Type operator * () const noexcept;
+    Type* operator -> () const noexcept;
+    operator bool() const noexcept;
+    Type* get() const noexcept;
+    Type* release() noexcept;
+    void reset(Type* pointer = nullptr) noexcept;
     ~UniquePtr();
 private:
-    T* elem;
+    Type* mPointer;
 };
 
-template <typename T>
-UniquePtr<T>::UniquePtr(UniquePtr&& other)
+template<typename Type>
+UniquePtr<Type>::UniquePtr(UniquePtr&& another) noexcept
 {
-    elem = other.elem;
-    other.elem = nullptr;
+    mPointer = another.mPointer;
+    another.mPointer = nullptr;
 }
 
-template <typename T>
-UniquePtr<T>& UniquePtr<T>::operator = (UniquePtr&& other)
+template<typename Type>
+UniquePtr<Type>& UniquePtr<Type>::operator = (UniquePtr&& another) noexcept
 {
-    if (elem)
+    if (this != &another)
     {
-        delete elem;
+        delete mPointer;
+        mPointer = another.mPointer;
+        another.mPointer = nullptr;
     }
-    elem = other.elem;
-    other.elem = nullptr;
     return *this;
 }
 
-template <typename T>
-T UniquePtr<T>::operator * () const
+template<typename Type>
+Type UniquePtr<Type>::operator * () const noexcept
 {
-    return *elem;
+    return *mPointer;
 }
 
-template <typename T>
-T* UniquePtr<T>::operator -> () const
+template<typename Type>
+Type* UniquePtr<Type>::operator -> () const noexcept
 {
-    return elem;
+    return mPointer;
 }
 
-template <typename T>
-T* UniquePtr<T>::release()
+template<typename Type>
+UniquePtr<Type>::operator bool() const noexcept
 {
-    T* tmpPtr = elem;
-    elem = nullptr;
-    return tmpPtr;
+    return mPointer != nullptr;
 }
 
-template <typename T>
-void UniquePtr<T>::reset(T* element)
+template<typename Type>
+Type* UniquePtr<Type>::get() const noexcept
 {
-    if (elem)
-    {
-        delete elem;
-    }
-    elem = element;
+    return mPointer;
 }
 
-template <typename T>
-T* UniquePtr<T>::get() const
+template<typename Type>
+Type* UniquePtr<Type>::release() noexcept
 {
-    return elem;
+    Type* tmp = mPointer;
+    mPointer = nullptr;
+    return tmp;
 }
 
-template <typename T>
-UniquePtr<T>::~UniquePtr()
+template<typename Type>
+void UniquePtr<Type>::reset(Type* pointer) noexcept
 {
-    if (elem)
-    {
-        delete elem;
-    }
+    delete mPointer;
+    mPointer = pointer;
+}
+
+template<typename Type>
+UniquePtr<Type>::~UniquePtr()
+{
+    delete mPointer;
 }
 
 int main()
 {
-    std::string* str = new std::string("Hello world");
-    UniquePtr<std::string> ptr1(str);
-    UniquePtr<std::string> ptr2 = std::move(ptr1);
-    std::cout << *ptr2 << std::endl;
+    // Test structure for testing
+    struct Vector2d
+    {
+        double x, y;
+    };
+
+    UniquePtr<Vector2d> ptr1(new Vector2d());
+    UniquePtr<Vector2d> ptr2(std::move(ptr1));
+    std::cout << "x: " << ptr2->x << " y: " << ptr2->y << std::endl;
     return EXIT_SUCCESS;
 }
