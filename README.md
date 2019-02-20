@@ -10,7 +10,7 @@ project contains the following algorithms...
 | Name allocator                           | Allocation | Free |
 |:----------------------------------------:|:----------:|:----:|
 | Linear allocator                         | O(1)       | -    |
-| Pool allocator                           | 0(1)       | O(1) |
+| Pool allocator                           | O(1)       | O(1) |
 
 ## Caching
 
@@ -24,7 +24,7 @@ project contains the following algorithms...
 |:----------------------------------------:|
 | Caesar cipher                            |
 
-## Data structure
+## Data structures
 
 | Name structure     | Indexation  | Search         | Inserting    | Deleting    | Memory |
 |:------------------:|:-----------:|:--------------:|:------------:|:-----------:|:------:|
