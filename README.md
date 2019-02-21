@@ -34,19 +34,9 @@ project contains the following algorithms...
 | Queue              | -           | -              | O(1)         | O(1)        | O(n)   |
 | Stack              | -           | -              | O(1)         | O(1)        | O(n)   |
 
-## Math
-
-| Name algorithm                           | 
-|:----------------------------------------:|
-| Greatest Common Divisor(GCD)             |
-| Matrices                                 |
-| Raise a power(Power)                     |
-| Search simple factors                    |
-| Vectors                                  |
-
 ## Multithreading
 
-| Name algorithm                           | 
+| Name algorithm                           |
 |:----------------------------------------:|
 | Producer and consumer                    |
 
