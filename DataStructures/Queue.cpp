@@ -1,180 +1,179 @@
+#include <cstdint>
 #include <iostream>
 
-template <typename T>
-class Queue 
+template<typename Type>
+class Queue
 {
-	struct Node 
-	{
-        T value;
-        Node* next;
-    };
 public:
-    explicit Queue() : size(0) {}
-    explicit Queue(const Queue& other);
-    explicit Queue(Queue&& other);
-    Queue& operator = (const Queue& other);
-    Queue& operator = (Queue&& other);
-
-    void push(const T& value);
+    explicit Queue() noexcept = default;
+    explicit Queue(const Queue& another);
+    explicit Queue(Queue&& another);
+    Queue& operator = (const Queue& another);
+    Queue& operator = (Queue&& another);
+    void push(const Type& value) noexcept;
     void pop();
     void clear();
-
-    T front() const;
-    inline size_t getSize() const;
-    inline bool isEmpty() const;
-
+    Type front() const;
+    std::size_t getSize() const noexcept;
+    bool isEmpty() const noexcept;
     ~Queue();
 private:
-    //recursive
-    Node* copyNode(Node* other);
-
-    Node* head;
-    size_t size;
+    struct Node
+    {
+        Type value;
+        Node* next;
+    };
+    Node* copyNode(Node* other) noexcept;
+private:
+    Node* mHead = nullptr;
+    std::size_t mSize = 0;
 };
 
-template <typename T>
-Queue<T>::Queue(const Queue& other)
+template<typename Type>
+Queue<Type>::Queue(const Queue& another)
 {
-    head = copyNode(other.head);
-    size = other.size;
+    mHead = copyNode(another.mHead);
+    mSize = another.mSize;
 }
 
-template <typename T>
-Queue<T>::Queue(Queue&& other)
+template<typename Type>
+Queue<Type>::Queue(Queue&& another)
 {
-    head = other.head;
-    other.head = nullptr;
-    size = other.size;
-    other.size = 0;
+    mHead = another.mHead;
+    another.mHead = nullptr;
+    mSize = another.mSize;
+    another.mSize = 0;
 }
 
-template <typename T>
-Queue<T>& Queue<T>::operator = (const Queue& other)
+template<typename Type>
+Queue<Type>& Queue<Type>::operator = (const Queue& another)
 {
-    if (!isEmpty())
+    if (this != &another) 
     {
-        clear();
+        if (!isEmpty())
+            clear();
+        mHead = copyNode(another.mHead);
+        mSize = another.mSize;
     }
-
-    head = copyNode(other.head);
-    size = other.size;
-	return *this;
+    return *this;
 }
 
-template <typename T>
-Queue<T>& Queue<T>::operator = (Queue&& other)
+template<typename Type>
+Queue<Type>& Queue<Type>::operator = (Queue&& another)
 {
-    if (!isEmpty())
+    if (this != &another)
     {
-        clear();
+        if (!isEmpty())
+            clear();
+        mHead = another.mHead;
+        another.mHead = nullptr;
+        mSize = another.mSize;
+        another.mSize = 0;
     }
-
-    head = other.head;
-    other.head = nullptr;
-    size = other.size;
-    other.size = 0;
-	return *this;
+    return *this;
 }
 
-template <typename T>
-auto Queue<T>::copyNode(Node* other) -> Node*
+template<typename Type>
+auto Queue<Type>::copyNode(Node* another) noexcept -> Node*
 {
-    if (!other)
-    {
+    if (!another)
         return nullptr;
-    }
 
     Node* newNode = new Node;
-    newNode->value = other->value;
-    newNode->next = copyNode(other->next);
+    newNode->value = another->value;
+    newNode->next = copyNode(another->next);
     return newNode;
 }
 
-template <typename T>
-void Queue<T>::push(const T& value)
+template<typename Type>
+void Queue<Type>::push(const Type& value) noexcept
 {
-    if(isEmpty())
+    if (isEmpty())
     {
-        head = new Node;
-        head->value = value;
+        mHead = new Node;
+        mHead->value = value;
     }
     else
     {
         Node* newHead = new Node;
         newHead->value = value;
-        newHead->next = head;
-        head = newHead;
+        newHead->next = mHead;
+        mHead = newHead;
     }
-    size++;
+    mSize++;
 }
 
-template <typename T>
-void Queue<T>::pop()
+template<typename Type>
+void Queue<Type>::pop()
 {
-    if(!isEmpty())
+    if (!isEmpty())
     {
-        Node* tmpPtr = head;
-        head = head->next;
+        Node* tmpPtr = mHead;
+        mHead = mHead->next;
         delete tmpPtr;
-        size--;
+        mSize--;
     }
     else
     {
-        throw std::runtime_error("Queue is empty");
+        throw std::runtime_error("Queue is empty. Could not delete the first element.");
     }
 }
 
-template <typename T>
-void Queue<T>::clear()
+template<typename Type>
+void Queue<Type>::clear()
 {
-    while(!isEmpty())
+    while (!isEmpty())
         pop();
 }
 
-template <typename T>
-T Queue<T>::front() const
+template<typename Type>
+Type Queue<Type>::front() const
 {
-    if(!isEmpty())
-        return head->value;
+    if (!isEmpty())
+        return mHead->value;
     else
-        throw std::runtime_error("Queue is empty");
+        throw std::runtime_error("Queue is empty. Could not give the first element.");
 }
 
-
-template <typename T>
-size_t Queue<T>::getSize() const
+template<typename Type>
+std::size_t Queue<Type>::getSize() const noexcept
 {
-    return size;
+    return mSize;
 }
 
-template <typename T>
-bool Queue<T>::isEmpty() const
+template<typename Type>
+bool Queue<Type>::isEmpty() const noexcept
 {
-    return size == 0;
+    return mSize == 0;
 }
 
-template <typename T>
-Queue<T>::~Queue()
+template<typename Type>
+Queue<Type>::~Queue()
 {
     clear();
 }
 
 int main()
 {
-    Queue<int> queue1;
-    Queue<int> queue2;
-    int ar[] = {4, 6, 7, 2, 8, 8};
-	
-    for(auto &val : ar)
-        queue1.push(val);
-
-    queue2 = std::move(queue1);
-    while(!queue2.isEmpty())
+    try 
     {
-        std::cout << queue2.front() << std::endl;
-        queue2.pop();
+        Queue<int> queue;
+        int ar[] = { 4, 6, 7, 2, 8, 8 };
+
+        for (auto &val : ar)
+            queue.push(val);
+
+        while (!queue.isEmpty())
+        {
+            std::cout << queue.front() << std::endl;
+            queue.pop();
+        }
+
+        return EXIT_SUCCESS;
     }
-
-    return EXIT_SUCCESS;
+    catch (const std::exception& e) 
+    {
+        std::cerr << "Error! Cause: " << e.what() << std::endl;
+        return EXIT_SUCCESS;
+    }
 }
-
