@@ -1,6 +1,9 @@
+#include <cctype>
+#include <string>
+#include <cstdint>
 #include <iostream>
 
-std::string encrypt(const std::string& text, size_t key)
+std::string encrypt(const std::string& text, std::uint8_t key)
 {
     std::string encryptedText = text;
     for (auto& symbol : encryptedText)
@@ -8,50 +11,50 @@ std::string encrypt(const std::string& text, size_t key)
         if (std::isupper(symbol))
         {
             symbol = static_cast<char>((symbol + key) <= 'Z' ?
-                                       (symbol + key) :
-                                       (symbol + key) - ('Z' - 'A' + 1));
+                (symbol + key) :
+                (symbol + key) - ('Z' - 'A' + 1));
         }
         if (std::islower(symbol))
         {
             symbol = static_cast<char>((symbol + key) <= 'z' ?
-                                       (symbol + key) :
-                                       (symbol + key) - ('z' - 'a' + 1));
+                (symbol + key) :
+                (symbol + key) - ('z' - 'a' + 1));
         }
     }
     return encryptedText;
 }
 
-std::string dencrypt(const std::string& text, size_t key)
+std::string decrypt(const std::string& text, std::uint8_t key)
 {
-    std::string dencryptedText = text;
-    for (auto& symbol : dencryptedText)
+    std::string decryptedText = text;
+    for (auto& symbol : decryptedText)
     {
         if (std::isupper(symbol))
         {
             symbol = static_cast<char>((symbol - key) >= 'A' ?
-                                       (symbol - key) :
-                                       (symbol - key) + ('Z' - 'A' + 1));
+                (symbol - key) :
+                (symbol - key) + ('Z' - 'A' + 1));
         }
         if (std::islower(symbol))
         {
             symbol = static_cast<char>((symbol - key) >= 'a' ?
-                                       (symbol - key) :
-                                       (symbol - key) + ('z' - 'a' + 1));
+                (symbol - key) :
+                (symbol - key) + ('z' - 'a' + 1));
         }
     }
-    return dencryptedText;
+    return decryptedText;
 }
 
 int main()
 {
-    size_t key = 2;
-    std::string text = "Test text...";
+    const std::uint8_t key = 2;
+    const std::string text = "Test text...";
+    const std::string encryptedText = encrypt(text, key);
+    const std::string decryptedText = decrypt(encryptedText, key);
 
-    std::string encryptedText = encrypt(text, key);
-    std::string dencryptedText = dencrypt(text, key);
-
-    std::cout << encryptedText << std::endl;
-    std::cout << encryptedText << std::endl;
+    std::cout << "Source text: " << text << std::endl;
+    std::cout << "Encrypted text: " << encryptedText << std::endl;
+    std::cout << "Decrypted text: " << decryptedText << std::endl;
 
     return EXIT_SUCCESS;
 }
