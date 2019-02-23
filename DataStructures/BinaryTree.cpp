@@ -63,7 +63,7 @@ auto BinarySearchTree<T>::copyNode(Node* node) -> Node*
 		return nullptr;
 	}
 
-	Node* newNode = new Node;
+	Node* newNode = new Node();
 	newNode->value = node->value;
 	newNode->leftChild = copyNode(node->leftChild);
 	newNode->rightChild = copyNode(node->rightChild);

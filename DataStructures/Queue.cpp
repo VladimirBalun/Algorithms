@@ -1,5 +1,6 @@
 #include <cstdint>
 #include <iostream>
+#include <stdexcept>
 
 template<typename Type>
 class Queue
@@ -79,7 +80,7 @@ auto Queue<Type>::copyNode(Node* another) noexcept -> Node*
     if (!another)
         return nullptr;
 
-    Node* newNode = new Node;
+    Node* newNode = new Node();
     newNode->value = another->value;
     newNode->next = copyNode(another->next);
     return newNode;

@@ -3,6 +3,7 @@
 #include <vector>
 #include <cstdint>
 #include <iostream>
+#include <stdexcept>
 
 template<typename Key, typename Value>
 class FifoCache

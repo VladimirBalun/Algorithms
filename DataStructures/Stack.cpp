@@ -1,4 +1,5 @@
 #include <iostream>
+#include <stdexcept>
 
 template<typename Type>
 class Stack
@@ -78,7 +79,7 @@ auto Stack<Type>::copyNode(Node* another) const noexcept -> Node*
     if (!another)
         return nullptr;
 
-    Node* newNode = new Node;
+    Node* newNode = new Node();
     newNode->value = another->value;
     newNode->prev = copyNode(another->prev);
     return newNode;

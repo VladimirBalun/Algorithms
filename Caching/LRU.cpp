@@ -2,6 +2,7 @@
 #include <array>
 #include <cstdint>
 #include <iostream>
+#include <stdexcept>
 #include <unordered_map>
 
 template<typename KeyType, typename ValueType>
@@ -60,7 +61,7 @@ bool LRUCache<KeyType, ValueType>::tryGet(const KeyType& key, const ValueType& v
 {
     auto iterator = mSearchTable.find(key);
     if (iterator == mSearchTable.end())
-        false;
+        return false;
 
     mElements.splice(mElements.begin(), mElements, iterator->second);
     value = iterator->second->second;
