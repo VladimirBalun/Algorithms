@@ -1,5 +1,7 @@
 # The Algorithms in C++
 
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/602c9d269922422cab44a2387031855c)](https://app.codacy.com/app/VladimirBalun/Algorithms?utm_source=github.com&utm_medium=referral&utm_content=VladimirBalun/Algorithms&utm_campaign=Badge_Grade_Dashboard)
+
 These algorithms are the demonstration purposes only. There are
 many algorithms implementations in the C++ standard
 library that are much better for performance reasons. This
