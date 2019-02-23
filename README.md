@@ -14,13 +14,14 @@ project contains the following algorithms...
 
 ## Caching
 
-| Name algorithm                           | 
+| Name algorithm                           |
 |:----------------------------------------:|
-| First in, first out(FIFO)                |
+| First in, first out (FIFO)               |
+| Last recently used (LRU)                 |
 
 ## Cryptography
 
-| Name algorithm                           | 
+| Name algorithm                           |
 |:----------------------------------------:|
 | Caesar cipher                            |
 
