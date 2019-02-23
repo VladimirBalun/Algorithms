@@ -106,7 +106,7 @@ void Stack<Type>::pop()
     }
     else
     {
-        throw std::runtime_error("Stack is empty");
+        throw std::runtime_error("Stack is empty. Could not delete the last element.");
     }
 }
 
@@ -123,7 +123,7 @@ Type Stack<Type>::top() const
     if (!isEmpty())
         return mHead->value;
     else
-        throw std::runtime_error("Stack is empty");
+        throw std::runtime_error("Stack is empty. Could not give the last element.");
 }
 
 template<typename Type>
@@ -148,18 +148,16 @@ int main()
 {
     try
     {
-        Stack<int> stack1;
-        Stack<int> stack2;
+        Stack<int> stack;
         const int ar[] = { 4, 6, 7, 2, 8, 8 };
 
         for (const auto& val : ar)
-            stack1.push(val);
+            stack.push(val);
 
-        stack2 = std::move(stack1);
-        while (!stack2.isEmpty())
+        while (!stack.isEmpty())
         {
-            std::cout << "Value: " << stack2.top() << std::endl;
-            stack2.pop();
+            std::cout << "Value: " << stack.top() << std::endl;
+            stack.pop();
         }
 
         return EXIT_SUCCESS;
