@@ -1,8 +1,8 @@
 # The Algorithms in C++
 
 These algorithms are the demonstration purposes only. There are
-many algorithms implementations in the C++ standard 
-library that are much better for performance reasons. This 
+many algorithms implementations in the C++ standard
+library that are much better for performance reasons. This
 project contains the following algorithms...
 
 ## Allocators
@@ -30,7 +30,7 @@ project contains the following algorithms...
 | Name structure     | Indexation  | Search         | Inserting    | Deleting    | Memory |
 |:------------------:|:-----------:|:--------------:|:------------:|:-----------:|:------:|
 | Binary Heap        | -           | -              | O(log(n))    | O(log(n))   | O(n)   |
-| Binary Search Tree | O(log(n))   | O(log(n))      | O(log(n))    | O(log(n))   | O(n)   |
+| Binary Tree | O(log(n))   | O(log(n))      | O(log(n))    | O(log(n))   | O(n)   |
 | LinkedList         | O(n)        | O(n)           | O(1)         | O(1)        | O(n)   |
 | Queue              | -           | -              | O(1)         | O(1)        | O(n)   |
 | Stack              | -           | -              | O(1)         | O(1)        | O(n)   |

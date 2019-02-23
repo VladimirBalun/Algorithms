@@ -22,9 +22,9 @@ public:
 
     ~BinaryHeap();
 private:
-    __always_inline size_t indexLeftChild(size_t curIndex);
-    __always_inline size_t indexRightChild(size_t curIndex);
-    __always_inline size_t indexParent(size_t curIndex);
+    size_t indexLeftChild(size_t curIndex);
+    size_t indexRightChild(size_t curIndex);
+    size_t indexParent(size_t curIndex);
     void expandArray();
     void heapify(size_t index);
 private:
