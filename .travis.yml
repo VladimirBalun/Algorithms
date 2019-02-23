@@ -1,0 +1,14 @@
+sudo: required
+language: cpp
+
+script:
+  - cmake -G "Unix Makefiles"
+  - make
+
+compiler:
+  - gcc
+  - clang
+
+os:
+  - linux
+  - osx
