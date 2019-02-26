@@ -1,213 +1,210 @@
-#include <iostream>
 #include <cmath>
+#include <iostream>
 
-template <typename T>
+#define INITIAL_COUNT_ELEMENTS 5
+
+template<typename Type>
 class BinaryHeap
 {
 public:
-    explicit BinaryHeap() : size(0), array(new T[2]) {}
-    explicit BinaryHeap(const BinaryHeap& other);
-    explicit BinaryHeap(BinaryHeap&& other);
-    BinaryHeap& operator = (const BinaryHeap& other);
-    BinaryHeap& operator = (BinaryHeap&& other);
-
-    void push(const T& element);
-    void pop();
-    void clear();
-
-    T top() const;
-    size_t getSize() const;
-    size_t getDepth() const;
-    bool isEmpty() const;
-
+    explicit BinaryHeap() = default;
+    explicit BinaryHeap(const BinaryHeap& another) noexcept;
+    explicit BinaryHeap(BinaryHeap&& another) noexcept;
+    BinaryHeap& operator = (const BinaryHeap& another) noexcept;
+    BinaryHeap& operator = (BinaryHeap&& another) noexcept;
+    void push(const Type& element) noexcept;
+    void pop() noexcept;
+    void clear() noexcept;
+    Type top() const noexcept;
+    std::size_t getSize() const noexcept;
+    std::size_t getDepth() const noexcept;
+    bool isEmpty() const noexcept;
     ~BinaryHeap();
 private:
-    size_t indexLeftChild(size_t curIndex);
-    size_t indexRightChild(size_t curIndex);
-    size_t indexParent(size_t curIndex);
-    void expandArray();
-    void heapify(size_t index);
+    std::size_t getIndexLeftChild(std::size_t curIndex) const noexcept;
+    std::size_t getIndexRightChild(std::size_t curIndex) const noexcept;
+    std::size_t getIndexParent(std::size_t curIndex) const noexcept;
+    void expandArray(std::size_t size = 0) noexcept;
+    void heapify(std::size_t index) noexcept;
 private:
-    T* array;
-    size_t size;
-    size_t maxSize = 3;
+    std::size_t mSize = 0;
+    std::size_t mMaxSize = INITIAL_COUNT_ELEMENTS;
+    Type* mElements = new Type[INITIAL_COUNT_ELEMENTS];
 };
 
-template <typename T>
-BinaryHeap<T>::BinaryHeap(const BinaryHeap& other)
+template<typename Type>
+BinaryHeap<Type>::BinaryHeap(const BinaryHeap& another) noexcept
 {
-    std::copy(other.array, &other.array[size], array);
-    size = other.size;
+    if (another.mMaxSize > mMaxSize)
+        expandArray(another.mMaxSize);
+    std::copy(another.mElements, another.mElements + another.mMaxSize, mElements);
+    mSize = another.mSize;
 }
 
-template <typename T>
-BinaryHeap<T>::BinaryHeap(BinaryHeap&& other)
+template<typename Type>
+BinaryHeap<Type>::BinaryHeap(BinaryHeap&& another) noexcept
+    : mElements(another.mElements), mSize(another.mSize)
 {
-    array = other.array;
-    size = other.size;
-    other.array = nullptr;
-    other.size = 0;
+    another.mElements = nullptr;
+    another.mSize = 0;
 }
 
-template <typename T>
-BinaryHeap<T>& BinaryHeap<T>::operator = (const BinaryHeap& other)
+template<typename Type>
+BinaryHeap<Type>& BinaryHeap<Type>::operator = (const BinaryHeap& another) noexcept
 {
-    std::copy(other.array, &other.array[size], array);
-    size = other.size;
+    if (this != &another)
+    {
+        if (another.mMaxSize > mMaxSize)
+            expandArray(another.mMaxSize);
+        std::copy(another.mElements, another.mElements + another.mMaxSize, mElements);
+        mSize = another.mSize;
+    }
     return *this;
 }
 
-template <typename T>
-BinaryHeap<T>& BinaryHeap<T>::operator = (BinaryHeap&& other)
+template<typename Type>
+BinaryHeap<Type>& BinaryHeap<Type>::operator = (BinaryHeap&& another) noexcept
 {
-    array = other.array;
-    size = other.size;
-    other.array = nullptr;
-    other.size = 0;
+    if (this != &another) 
+    {
+        mElements = another.mElements;
+        mSize = another.mSize;
+        another.mElements = nullptr;
+        another.mSize = 0;
+    }
     return *this;
 }
 
-template <typename T>
-size_t BinaryHeap<T>::indexLeftChild(size_t curIndex)
+template<typename Type>
+size_t BinaryHeap<Type>::getIndexLeftChild(size_t curIndex) const noexcept
 {
     return curIndex * 2 + 1;
 }
 
-template <typename T>
-size_t BinaryHeap<T>::indexRightChild(size_t curIndex)
+template<typename Type>
+size_t BinaryHeap<Type>::getIndexRightChild(size_t curIndex) const noexcept
 {
     return curIndex * 2 + 2;
 }
 
-template <typename T>
-size_t BinaryHeap<T>::indexParent(size_t curIndex)
+template<typename Type>
+size_t BinaryHeap<Type>::getIndexParent(size_t curIndex) const noexcept
 {
     return curIndex == 0 ? 0 : (curIndex - 1) / 2;
 }
 
-template <typename T>
-void BinaryHeap<T>::expandArray()
+template<typename Type>
+void BinaryHeap<Type>::expandArray(std::size_t size) noexcept
 {
-    maxSize = (maxSize * 2) - (maxSize / 3);
-    T* newArray = new T[maxSize];
-    std::copy(array, &array[size], newArray);
-    delete[] array;
-    array = newArray;
+    if (size == 0)
+        mMaxSize = (mMaxSize * 2) - (mMaxSize / 3);
+    else
+        mMaxSize = size;
+
+    Type* newArray = new Type[mMaxSize];
+    std::copy(mElements, mElements + mMaxSize, newArray);
+    delete[] mElements;
+    mElements = newArray;
 }
 
-template <typename T>
-void BinaryHeap<T>::heapify(size_t index)
+template<typename Type>
+void BinaryHeap<Type>::heapify(size_t index) noexcept
 {
-    size_t leftChild;
-    size_t rightChild;
-    size_t largestChild;
+    std::size_t leftChild;
+    std::size_t rightChild;
+    std::size_t largestChild;
 
     while(true)
     {
-        leftChild = indexLeftChild(index);
-        rightChild = indexRightChild(index);
+        leftChild = getIndexLeftChild(index);
+        rightChild = getIndexRightChild(index);
         largestChild = index;
 
-        if (array[leftChild] > array[largestChild] && leftChild < size)
-        {
+        if (mElements[leftChild] > mElements[largestChild] && leftChild < mSize)
             largestChild = leftChild;
-        }
 
-        if (array[rightChild] > array[largestChild] && rightChild < size)
-        {
+        if (mElements[rightChild] > mElements[largestChild] && rightChild < mSize)
             largestChild = rightChild;
-        }
 
         if (largestChild == index)
-        {
             break;
-        }
 
-        std::swap(array[index], array[largestChild]);
+        std::swap(mElements[index], mElements[largestChild]);
         index = largestChild;
     }
 }
 
-template <typename T>
-void BinaryHeap<T>::push(const T& element)
+template<typename Type>
+void BinaryHeap<Type>::push(const Type& element) noexcept
 {
-    if (size == maxSize)
-    {
+    if (mSize == mMaxSize)
         expandArray();
-    }
 
-    array[size] = element;
-    size_t current = size;
-    size_t parent = indexParent(current);
-    size++;
+    mElements[mSize] = element;
+    std::size_t current = mSize;
+    std::size_t parent = getIndexParent(current);
+    mSize++;
 
-    while (current > 0 && array[current] > array[parent])
+    while (current > 0 && mElements[current] > mElements[parent])
     {
-        std::swap(array[current], array[parent]);
+        std::swap(mElements[current], mElements[parent]);
         current = parent;
-        parent = indexParent(current);
+        parent = getIndexParent(current);
     }
 }
 
-template <typename T>
-void BinaryHeap<T>::pop()
+template<typename Type>
+void BinaryHeap<Type>::pop() noexcept
 {
     if (isEmpty())
-    {
         return;
-    }
 
-    std::swap(array[0], array[size - 1]);
-    array[size - 1] = NULL;
-    size--;
+    std::swap(mElements[0], mElements[mSize - 1]);
+    mElements[mSize - 1] = NULL;
+    mSize--;
 
     heapify(0);
 }
 
-template <typename T>
-void BinaryHeap<T>::clear()
+template<typename Type>
+void BinaryHeap<Type>::clear() noexcept
 {
-    for (size_t i = 0; i < size; i++)
-    {
-        array[i] = NULL;
-    }
-    size = 0;
+    for (std::size_t i = 0; i < mSize; i++)
+        mElements[i] = NULL;
+    mSize = 0;
 }
 
-template <typename T>
-T BinaryHeap<T>::top() const
+template<typename Type>
+Type BinaryHeap<Type>::top() const noexcept
 {
-    return array[0];
+    return mElements[0];
 }
 
-template <typename T>
-size_t BinaryHeap<T>::getSize() const
+template<typename Type>
+std::size_t BinaryHeap<Type>::getSize() const noexcept
 {
-    return size;
+    return mSize;
 }
 
-template <typename T>
-size_t BinaryHeap<T>::getDepth() const
+template<typename Type>
+std::size_t BinaryHeap<Type>::getDepth() const noexcept
 {
-    return log2(size);
+    return static_cast<std::size_t>(round((log2(mSize)) + 0.5));
 }
 
-template <typename T>
-bool BinaryHeap<T>::isEmpty() const
+template<typename Type>
+bool BinaryHeap<Type>::isEmpty() const noexcept
 {
-    return size == 0;
+    return mSize == 0;
 }
 
-template <typename T>
-BinaryHeap<T>::~BinaryHeap()
+template<typename Type>
+BinaryHeap<Type>::~BinaryHeap()
 {
-    if (array)
-    {
-        delete[] array;
-    }
+    delete[] mElements;
 }
 
-int main(int argc, char *argv[])
+int main()
 {
     BinaryHeap<int> heap;
 
@@ -222,7 +219,8 @@ int main(int argc, char *argv[])
     heap.pop();
     heap.pop();
 
-    std::cout << heap.getSize() << " " << heap.getDepth() << std::endl;
+    std::cout << "Heap size: " << heap.getSize() << std::endl;
+    std::cout << "Heap depth: " << heap.getDepth() << std::endl;
 
     return EXIT_SUCCESS;
 }
