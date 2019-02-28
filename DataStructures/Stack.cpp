@@ -6,10 +6,11 @@ class Stack
 {
 public:
     explicit Stack() noexcept = default;
-    explicit Stack(const Stack& another);
-    Stack& operator=(const Stack& another);
-    explicit Stack(Stack&& another);
-    Stack& operator=(Stack&& another);
+    explicit Stack(const Stack& another) noexcept
+        : mHead(copyNode(another.mHead)), mSize(another.mSize) {}
+    explicit Stack(Stack&& another) noexcept;
+    Stack& operator=(const Stack& another) noexcept;
+    Stack& operator=(Stack&& another) noexcept;
     void push(const Type& value) noexcept;
     void pop();
     void clear();
@@ -20,8 +21,8 @@ public:
 private:
     struct Node
     {
-        Type value;
-        Node* prev;
+        Type value = Type();
+        Node* prev = nullptr;
     };
     Node* copyNode(Node* another) const noexcept;
 private:
@@ -29,15 +30,16 @@ private:
     std::size_t mSize = 0;
 };
 
-template<typename  Type>
-Stack<Type>::Stack(const Stack& another)
+template<typename Type>
+Stack<Type>::Stack(Stack&& another) noexcept
+    : (another.mHead), mSize(another.mSize)
 {
-    mHead = copyNode(another.mHead);
-    mSize = another.mSize;
+    another.mSize = 0;
+    another.mHead = nullptr;
 }
 
 template<typename Type>
-Stack<Type>& Stack<Type>::operator=(const Stack& another)
+Stack<Type>& Stack<Type>::operator=(const Stack& another) noexcept
 {
     if (this != &another)
     {
@@ -50,16 +52,7 @@ Stack<Type>& Stack<Type>::operator=(const Stack& another)
 }
 
 template<typename Type>
-Stack<Type>::Stack(Stack&& another)
-{
-    mHead = another.mHead;
-    mSize = another.mSize;
-    another.mHead = nullptr;
-    another.mSize = 0;
-}
-
-template<typename Type>
-Stack<Type>& Stack<Type>::operator=(Stack&& another)
+Stack<Type>& Stack<Type>::operator=(Stack&& another) noexcept
 {
     if (this != &another)
     {
@@ -150,9 +143,7 @@ int main()
     try
     {
         Stack<int> stack;
-        const int ar[] = { 4, 6, 7, 2, 8, 8 };
-
-        for (const auto& val : ar)
+        for (const auto& val : { 4, 6, 7, 2, 8, 8 })
             stack.push(val);
 
         while (!stack.isEmpty())

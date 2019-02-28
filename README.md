@@ -34,7 +34,7 @@ project contains the following algorithms...
 | Name structure     | Indexation  | Search         | Inserting    | Deleting    | Memory |
 |:------------------:|:-----------:|:--------------:|:------------:|:-----------:|:------:|
 | Binary Heap        | -           | -              | O(log(n))    | O(log(n))   | O(n)   |
-| Binary Tree | O(log(n))   | O(log(n))      | O(log(n))    | O(log(n))   | O(n)   |
+| Binary Tree        | O(log(n))   | O(log(n))      | O(log(n))    | O(log(n))   | O(n)   |
 | LinkedList         | O(n)        | O(n)           | O(1)         | O(1)        | O(n)   |
 | Queue              | -           | -              | O(1)         | O(1)        | O(n)   |
 | Stack              | -           | -              | O(1)         | O(1)        | O(n)   |
@@ -51,7 +51,6 @@ project contains the following algorithms...
 |:-----------------:|:--------------:|:--------------:|:------------:|
 | Binary search     | Sorted array   | O(log(n))      | O(log(n))    |
 | Linear search     | Array          | O(n)           | O(n)         |
-
 
 ## SmartPointers
 

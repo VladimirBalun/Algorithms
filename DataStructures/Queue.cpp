@@ -7,10 +7,11 @@ class Queue
 {
 public:
     explicit Queue() noexcept = default;
-    explicit Queue(const Queue& another);
-    explicit Queue(Queue&& another);
-    Queue& operator = (const Queue& another);
-    Queue& operator = (Queue&& another);
+    explicit Queue(const Queue& another) noexcept 
+        : : mHead(copyNode(another.mHead)), mSize(another.mSize) {}
+    explicit Queue(Queue&& another) noexcept;
+    Queue& operator = (const Queue& another) noexcept;
+    Queue& operator = (Queue&& another) noexcept;
     void push(const Type& value) noexcept;
     void pop();
     void clear();
@@ -21,8 +22,8 @@ public:
 private:
     struct Node
     {
-        Type value;
-        Node* next;
+        Type value = Type();
+        Node* next = nullptr;
     };
     Node* copyNode(Node* other) noexcept;
 private:
@@ -31,23 +32,15 @@ private:
 };
 
 template<typename Type>
-Queue<Type>::Queue(const Queue& another)
+Queue<Type>::Queue(Queue&& another) noexcept
+    : mHead(another.mHead), mSize(another.mSize)
 {
-    mHead = copyNode(another.mHead);
-    mSize = another.mSize;
-}
-
-template<typename Type>
-Queue<Type>::Queue(Queue&& another)
-{
-    mHead = another.mHead;
-    another.mHead = nullptr;
-    mSize = another.mSize;
     another.mSize = 0;
+    another.mHead = nullptr;
 }
 
 template<typename Type>
-Queue<Type>& Queue<Type>::operator = (const Queue& another)
+Queue<Type>& Queue<Type>::operator = (const Queue& another) noexcept
 {
     if (this != &another) 
     {
@@ -60,7 +53,7 @@ Queue<Type>& Queue<Type>::operator = (const Queue& another)
 }
 
 template<typename Type>
-Queue<Type>& Queue<Type>::operator = (Queue&& another)
+Queue<Type>& Queue<Type>::operator = (Queue&& another) noexcept
 {
     if (this != &another)
     {
@@ -159,14 +152,12 @@ int main()
     try 
     {
         Queue<int> queue;
-        int ar[] = { 4, 6, 7, 2, 8, 8 };
-
-        for (auto &val : ar)
+        for (auto &val : { 4, 6, 7, 2, 8, 8 })
             queue.push(val);
 
         while (!queue.isEmpty())
         {
-            std::cout << queue.front() << std::endl;
+            std::cout << "Value: " << queue.front() << std::endl;
             queue.pop();
         }
 
