@@ -52,6 +52,13 @@ project contains the following algorithms...
 | Binary search     | Sorted array   | O(log(n))      | O(log(n))    |
 | Linear search     | Array          | O(n)           | O(n)         |
 
+## Set operations
+
+| Name algorithm                           |
+|:----------------------------------------:|
+| Generation of all subsets of the set     |
+
+
 ## SmartPointers
 
 | Name pointer                             |

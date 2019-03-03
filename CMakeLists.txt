@@ -30,6 +30,9 @@ add_executable (BinarySearch ./Search/BinarySearch.cpp)
 add_executable (LinearSearch ./Search/LinearSearch.cpp)
 set_target_properties (BinarySearch LinearSearch PROPERTIES FOLDER "Search")
 
+add_executable (GenerationOfAllSubsetsOfTheSet ./SetOperations/GenerationOfAllSubsetsOfTheSet.cpp)
+set_target_properties (GenerationOfAllSubsetsOfTheSet PROPERTIES FOLDER "SetOperations")
+
 add_executable (AutoPtr ./SmartPointers/AutoPtr.cpp)
 add_executable (SharedPtr ./SmartPointers/SharedPtr.cpp)
 add_executable (UniquePtr ./SmartPointers/UniquePtr.cpp)
