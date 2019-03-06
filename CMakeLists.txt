@@ -30,8 +30,10 @@ add_executable (BinarySearch ./Search/BinarySearch.cpp)
 add_executable (LinearSearch ./Search/LinearSearch.cpp)
 set_target_properties (BinarySearch LinearSearch PROPERTIES FOLDER "Search")
 
+add_executable (DifferenceBetweenOrderedSets ./SetOperations/DifferenceBetweenOrderedSets.cpp)
 add_executable (GenerationOfAllSubsetsOfTheSet ./SetOperations/GenerationOfAllSubsetsOfTheSet.cpp)
-set_target_properties (GenerationOfAllSubsetsOfTheSet PROPERTIES FOLDER "SetOperations")
+add_executable (IntersectionOfTheOrderedSets ./SetOperations/IntersectionOfTheOrderedSets.cpp)
+set_target_properties (DifferenceBetweenOrderedSets GenerationOfAllSubsetsOfTheSet IntersectionOfTheOrderedSets PROPERTIES FOLDER "SetOperations")
 
 add_executable (AutoPtr ./SmartPointers/AutoPtr.cpp)
 add_executable (SharedPtr ./SmartPointers/SharedPtr.cpp)
