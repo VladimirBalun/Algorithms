@@ -59,6 +59,7 @@ project contains the following algorithms...
 | Difference between the ordered sets      |
 | Generation of all subsets of the set     |
 | Intersection of the ordered sets         |
+| Union of the ordered sets                |
 
 
 ## SmartPointers
