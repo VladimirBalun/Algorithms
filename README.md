@@ -67,7 +67,6 @@ project contains the following algorithms...
 | Intersection of the ordered sets         |
 | Union of the ordered sets                |
 
-
 ## SmartPointers
 
 | Name pointer                             |

@@ -6,18 +6,18 @@ template<typename Type>
 class Queue
 {
 public:
-    explicit Queue() noexcept = default;
-    explicit Queue(const Queue& another) noexcept 
-        : : mHead(copyNode(another.mHead)), mSize(another.mSize) {}
+    explicit Queue() = default;
+    explicit Queue(const Queue& another) noexcept
+        : mHead(copyNode(another.mHead)), mSize(another.mSize) {}
     explicit Queue(Queue&& another) noexcept;
     Queue& operator = (const Queue& another) noexcept;
     Queue& operator = (Queue&& another) noexcept;
     void push(const Type& value) noexcept;
     void pop();
-    void clear();
+    void clear() noexcept;
     Type front() const;
-    std::size_t getSize() const noexcept;
-    bool isEmpty() const noexcept;
+    constexpr std::size_t getSize() const noexcept;
+    constexpr bool isEmpty() const noexcept;
     ~Queue();
 private:
     struct Node
@@ -73,27 +73,14 @@ auto Queue<Type>::copyNode(Node* another) noexcept -> Node*
     if (!another)
         return nullptr;
 
-    Node* newNode = new Node();
-    newNode->value = another->value;
-    newNode->next = copyNode(another->next);
-    return newNode;
+    return new Node{ another->value, copyNode(another->next) };
 }
 
 template<typename Type>
 void Queue<Type>::push(const Type& value) noexcept
 {
-    if (isEmpty())
-    {
-        mHead = new Node;
-        mHead->value = value;
-    }
-    else
-    {
-        Node* newHead = new Node;
-        newHead->value = value;
-        newHead->next = mHead;
-        mHead = newHead;
-    }
+    Node* newElem = new Node{ value, mHead };
+    mHead = newElem;
     mSize++;
 }
 
@@ -114,10 +101,18 @@ void Queue<Type>::pop()
 }
 
 template<typename Type>
-void Queue<Type>::clear()
+void Queue<Type>::clear() noexcept
 {
-    while (!isEmpty())
-        pop();
+    Node* iterator = mHead;
+    while (iterator)
+    {
+        Node* tmpPtr = iterator;
+        iterator = iterator->next;
+        delete tmpPtr;
+    }
+
+    mSize = 0;
+    mHead = nullptr;
 }
 
 template<typename Type>
@@ -130,13 +125,13 @@ Type Queue<Type>::front() const
 }
 
 template<typename Type>
-std::size_t Queue<Type>::getSize() const noexcept
+constexpr std::size_t Queue<Type>::getSize() const noexcept
 {
     return mSize;
 }
 
 template<typename Type>
-bool Queue<Type>::isEmpty() const noexcept
+constexpr bool Queue<Type>::isEmpty() const noexcept
 {
     return mSize == 0;
 }
