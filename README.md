@@ -39,6 +39,12 @@ project contains the following algorithms...
 | Queue              | -           | -              | O(1)         | O(1)        | O(n)   |
 | Stack              | -           | -              | O(1)         | O(1)        | O(n)   |
 
+## Graphs
+
+| Name algorithm           |
+|:------------------------:|
+| Depth-First Search (DFS) |
+
 ## Multithreading
 
 | Name algorithm                           |
