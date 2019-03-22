@@ -5,18 +5,28 @@ template<typename Type>
 class Stack
 {
 public:
-    explicit Stack() noexcept = default;
+    using value_type = Type;
+    using size_type = std::size_t;
+    using reference = value_type&;
+    using const_reference = const value_type&;
+public:
+    explicit Stack() = default;
     explicit Stack(const Stack& another) noexcept
-        : mHead(copyNode(another.mHead)), mSize(another.mSize) {}
+        : m_head(copy_node(another.m_head)), m_size(another.m_size) {}
     explicit Stack(Stack&& another) noexcept;
     Stack& operator=(const Stack& another) noexcept;
     Stack& operator=(Stack&& another) noexcept;
+    void swap(Stack& another) noexcept;
+    template<typename... Args>
+    void emplace(Args&&... args) noexcept;
     void push(const Type& value) noexcept;
+    void push(Type&& value) noexcept;
     void pop();
-    void clear();
-    Type top() const;
-    size_t getSize() const noexcept;
-    bool isEmpty() const noexcept;
+    void clear() noexcept;
+    reference top();
+    const_reference top() const;
+    constexpr size_type size() const noexcept;
+    constexpr bool empty() const noexcept;
     ~Stack();
 private:
     struct Node
@@ -24,18 +34,18 @@ private:
         Type value = Type();
         Node* prev = nullptr;
     };
-    Node* copyNode(Node* another) const noexcept;
+    Node* copy_node(Node* another) const noexcept;
 private:
-    Node* mHead = nullptr;
-    std::size_t mSize = 0;
+    Node* m_head = nullptr;
+    size_type m_size = 0;
 };
 
 template<typename Type>
 Stack<Type>::Stack(Stack&& another) noexcept
-    : (another.mHead), mSize(another.mSize)
+    : m_head(another.m_head), m_size(another.m_size)
 {
-    another.mSize = 0;
-    another.mHead = nullptr;
+    another.m_size = 0;
+    another.m_head = nullptr;
 }
 
 template<typename Type>
@@ -43,10 +53,10 @@ Stack<Type>& Stack<Type>::operator=(const Stack& another) noexcept
 {
     if (this != &another)
     {
-        if (!isEmpty())
+        if (!empty())
             clear();
-        mHead = copyNode(another.mHead);
-        mSize = another.mSize;
+        m_head = copy_node(another.m_head);
+        m_size = another.m_size;
     }
     return *this;
 }
@@ -56,47 +66,70 @@ Stack<Type>& Stack<Type>::operator=(Stack&& another) noexcept
 {
     if (this != &another)
     {
-        if (!isEmpty())
+        if (!empty())
             clear();
-        mHead = another.mHead;
-        mSize = another.mSize;
-        another.mHead = nullptr;
-        another.mSize = 0;
+        m_head = another.m_head;
+        m_size = another.m_size;
+        another.m_head = nullptr;
+        another.m_size = 0;
     }
     return *this;
 }
 
 template<typename Type>
-auto Stack<Type>::copyNode(Node* another) const noexcept -> Node*
+auto Stack<Type>::copy_node(Node* another) const noexcept -> Node*
 {
     if (!another)
         return nullptr;
 
-    Node* newNode = new Node();
-    newNode->value = another->value;
-    newNode->prev = copyNode(another->prev);
-    return newNode;
+    return new Node{ another->value, copy_node(another->next) };
+}
+
+template<typename Type>
+void Stack<Type>::swap(Stack& another) noexcept
+{
+    if (this != &another)
+    {
+        Node* another_head = another.m_head;
+        std::size_t another_size = another.m_size;
+        another.m_head = m_head;
+        another.m_size = m_size;
+        m_head = another_head;
+        m_size = another_size;
+    }
+}
+
+template<typename Type>
+template<typename... Args>
+void Stack<Type>::emplace(Args&&... args) noexcept
+{
+    m_head = new Node{ { std::forward<Args>(args)... }, m_head };
+    m_size++;
 }
 
 template<typename Type>
 void Stack<Type>::push(const Type& value) noexcept
 {
-    Node* newElem = new Node;
-    newElem->value = value;
-    newElem->prev = mHead;
-    mHead = newElem;
-    mSize++;
+    m_head = new Node{ value, m_head };
+    m_size++;
+}
+
+template<typename Type>
+void Stack<Type>::push(Type&& value) noexcept
+{
+    m_head = new Node{ value, m_head };
+    m_size++;
 }
 
 template<typename Type>
 void Stack<Type>::pop()
 {
-    if (!isEmpty())
+    if (!empty())
     {
-        Node* tmpPtr = mHead;
-        mHead = mHead->prev;
-        delete tmpPtr;
-        mSize--;
+        Node* temp = m_head;
+        m_head = m_head->prev;
+        delete temp;
+        m_size--;
     }
     else
     {
@@ -105,31 +138,48 @@ void Stack<Type>::pop()
 }
 
 template<typename Type>
-void Stack<Type>::clear()
+void Stack<Type>::clear() noexcept
 {
-    while (!isEmpty())
-        pop();
+    Node* iterator = m_head;
+    while (iterator)
+    {
+        Node* temp = iterator;
+        iterator = iterator->prev;
+        delete temp;
+    }
+
+    m_size = 0;
+    m_head = nullptr;
 }
 
 template<typename Type>
-Type Stack<Type>::top() const
+typename Stack<Type>::reference Stack<Type>::top()
 {
-    if (!isEmpty())
-        return mHead->value;
+    if (!empty())
+        return m_head->value;
     else
         throw std::runtime_error("Stack is empty. Could not give the last element.");
 }
 
 template<typename Type>
-std::size_t Stack<Type>::getSize() const noexcept
+typename Stack<Type>::const_reference Stack<Type>::top() const
 {
-    return mSize;
+    if (!empty())
+        return m_head->value;
+    else
+        throw std::runtime_error("Stack is empty. Could not give the last element.");
 }
 
 template<typename Type>
-bool Stack<Type>::isEmpty() const noexcept
+constexpr typename Stack<Type>::size_type Stack<Type>::size() const noexcept
 {
-    return mSize == 0;
+    return m_size;
+}
+
+template<typename Type>
+constexpr bool Stack<Type>::empty() const noexcept
+{
+    return m_size == 0;
 }
 
 template<typename Type>
@@ -146,7 +196,7 @@ int main()
         for (const auto& val : { 4, 6, 7, 2, 8, 8 })
             stack.push(val);
 
-        while (!stack.isEmpty())
+        while (!stack.empty())
         {
             std::cout << "Value: " << stack.top() << std::endl;
             stack.pop();
