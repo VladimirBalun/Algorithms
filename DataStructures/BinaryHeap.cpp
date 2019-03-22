@@ -16,9 +16,9 @@ public:
     void pop() noexcept;
     void clear() noexcept;
     Type top() const noexcept;
-    std::size_t getSize() const noexcept;
-    std::size_t getDepth() const noexcept;
-    bool isEmpty() const noexcept;
+    constexpr std::size_t getSize() const noexcept;
+    constexpr std::size_t getDepth() const noexcept;
+    constexpr bool isEmpty() const noexcept;
     ~BinaryHeap();
 private:
     std::size_t getIndexLeftChild(std::size_t curIndex) const noexcept;
@@ -181,19 +181,19 @@ Type BinaryHeap<Type>::top() const noexcept
 }
 
 template<typename Type>
-std::size_t BinaryHeap<Type>::getSize() const noexcept
+constexpr std::size_t BinaryHeap<Type>::getSize() const noexcept
 {
     return mSize;
 }
 
 template<typename Type>
-std::size_t BinaryHeap<Type>::getDepth() const noexcept
+constexpr std::size_t BinaryHeap<Type>::getDepth() const noexcept
 {
     return static_cast<std::size_t>(round((log2(mSize)) + 0.5));
 }
 
 template<typename Type>
-bool BinaryHeap<Type>::isEmpty() const noexcept
+constexpr bool BinaryHeap<Type>::isEmpty() const noexcept
 {
     return mSize == 0;
 }
