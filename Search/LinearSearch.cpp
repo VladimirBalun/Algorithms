@@ -1,22 +1,19 @@
-#include <iostream>
 #include <vector>
+#include <iostream>
 
-template<typename Type, typename TypeValue>
-size_t linearSearch(Type &ar, TypeValue val)
+template<typename Collection, typename ValueType>
+int linearSearch(Collection& array, ValueType value)
 {
-	for (size_t i = 0; i < ar.size(); i++)
-	{
-		if(ar[i] == val)
-		{
-			return i;
-		}
-	}
-	return -1;
+    for (Collection::size_type i = 0; i < array.size(); i++)
+        if(array[i] == value)
+            return i;
+
+    return -1;
 }
 
 int main()
 {
-	std::vector<int> vector = { 1, 5, 89, 2, 7, 34, 8, 5, 9, 1 };
-	std::cout << "Index: " << linearSearch(vector, 5) << std::endl;
-	return 0;
+    std::vector<int> vector = { 1, 5, 89, 2, 7, 34, 8, 5, 9, 1 };
+    std::cout << "Index: " << linearSearch(vector, 5) << std::endl;
+    return 0;
 }
