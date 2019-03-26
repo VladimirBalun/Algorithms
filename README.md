@@ -41,9 +41,10 @@ project contains the following algorithms...
 
 ## Graphs
 
-| Name algorithm           |
-|:------------------------:|
-| Depth-First Search (DFS) |
+| Name algorithm             |
+|:--------------------------:|
+| Depth-First Search (DFS)   |
+| Breadth-First Search (BFS) |
 
 ## Multithreading
 

@@ -23,8 +23,9 @@ add_executable (Queue ./DataStructures/Queue.cpp)
 add_executable (Stack ./DataStructures/Stack.cpp)
 set_target_properties (BinaryHeap BinaryTree LinkedList Queue Stack PROPERTIES FOLDER "DataStructures")
 
+add_executable (BFS ./Graphs/BFS.cpp)
 add_executable (DFS ./Graphs/DFS.cpp)
-set_target_properties (DFS PROPERTIES FOLDER "Graphs")
+set_target_properties (BFS DFS PROPERTIES FOLDER "Graphs")
 
 add_executable (ProducerAndConsumer ./Multithreading/ProducerAndConsumer.cpp)
 set_target_properties (ProducerAndConsumer PROPERTIES FOLDER "Multithreading")
