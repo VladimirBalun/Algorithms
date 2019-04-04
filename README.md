@@ -50,6 +50,7 @@ project contains the following algorithms...
 
 | Name algorithm                           |
 |:----------------------------------------:|
+| Ping Pong                                |
 | Producer and consumer                    |
 
 ## Search
