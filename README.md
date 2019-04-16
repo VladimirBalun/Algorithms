@@ -23,6 +23,12 @@ project contains the following algorithms...
 | First in, first out (FIFO)               |
 | Last recently used (LRU)                 |
 
+## Computational geometry
+
+| Name algorithm                           | Average result | Worse result |
+|:----------------------------------------:|---------------:|:------------:|
+| Ramer-Douglas-Peucker                    | O(nlogn)       | O(n^2)       |
+
 ## Cryptography
 
 | Name algorithm                           |

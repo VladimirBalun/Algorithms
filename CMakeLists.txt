@@ -15,6 +15,11 @@ add_executable (FIFO ./Caching/FIFO.cpp)
 add_executable (LRU ./Caching/LRU.cpp)
 set_target_properties (FIFO LRU PROPERTIES FOLDER "Caching")
 
+# ComputationalGeometry
+add_executable (RamerDouglasPeucker ./ComputationalGeometry/RamerDouglasPeucker.cpp)
+set_target_properties (RamerDouglasPeucker PROPERTIES FOLDER "ComputationalGeometry")
+
+
 # Cryptography
 add_executable (CaesarCipher ./Cryptography/CaesarCipher.cpp)
 set_target_properties (CaesarCipher PROPERTIES FOLDER "Cryptography")
