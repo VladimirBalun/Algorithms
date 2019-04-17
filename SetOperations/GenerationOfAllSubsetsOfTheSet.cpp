@@ -1,22 +1,29 @@
 #include <vector>
 #include <string>
+#include <iterator>
 #include <iostream>
 
-void setGeneration(const std::vector<int>& set, std::size_t position, std::string&& output) 
+void generate_subsets(const std::vector<int>& source_set, std::vector<int>& subset, std::size_t position)
 {
-    if (position == set.size()) 
+    if (position == source_set.size()) 
     {
-        std::cout << output << '\n';
+        std::copy(subset.begin(), subset.end(), std::ostream_iterator<int>(std::cout, " "));
+        std::cout << std::endl;
         return;
     }
-
-    setGeneration(set, position + 1, std::move(output));
-    setGeneration(set, position + 1, output + std::to_string(set.at(position)) + ' ') ;
+    else 
+    {
+        subset.push_back(source_set.at(position));
+        generate_subsets(source_set, subset, position + 1);
+        subset.pop_back();
+        generate_subsets(source_set, subset, position + 1);
+    }
 }
 
 int main() 
 {
-    std::vector<int> set = { 1, 2, 3, 4 };
-    setGeneration(set, 0, "");
+    std::vector<int> subset{};
+    std::vector<int> source_set = { 1, 2, 3 };
+    generate_subsets(source_set, subset, 0);
     return EXIT_SUCCESS;
 }

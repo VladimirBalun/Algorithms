@@ -49,11 +49,12 @@ set_target_properties (BinarySearch LinearSearch PROPERTIES FOLDER "Search")
 
 # Set operations
 add_executable (DifferenceBetweenOrderedSets ./SetOperations/DifferenceBetweenOrderedSets.cpp)
+add_executable (GenerationOfAllPermutationsFromSet ./SetOperations/GenerationOfAllPermutationsFromSet.cpp)
 add_executable (GenerationOfAllSubsetsOfTheSet ./SetOperations/GenerationOfAllSubsetsOfTheSet.cpp)
 add_executable (IntersectionOfTheOrderedSets ./SetOperations/IntersectionOfTheOrderedSets.cpp)
 add_executable (SymmetricDifferenceOfOrderedSets  ./SetOperations/SymmetricDifferenceOfOrderedSets.cpp)
 add_executable (UnionOfTheOrderedSets ./SetOperations/UnionOfTheOrderedSets.cpp)
-set_target_properties (DifferenceBetweenOrderedSets GenerationOfAllSubsetsOfTheSet IntersectionOfTheOrderedSets SymmetricDifferenceOfOrderedSets UnionOfTheOrderedSets PROPERTIES FOLDER "SetOperations")
+set_target_properties (DifferenceBetweenOrderedSets GenerationOfAllPermutationsFromSet GenerationOfAllSubsetsOfTheSet IntersectionOfTheOrderedSets SymmetricDifferenceOfOrderedSets UnionOfTheOrderedSets PROPERTIES FOLDER "SetOperations")
 
 # Smart pointers
 add_executable (AutoPtr ./SmartPointers/AutoPtr.cpp)
