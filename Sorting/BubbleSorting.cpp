@@ -1,23 +1,25 @@
 #include <vector>
 #include <iostream>
 
-template<typename Collection, typename Comparator>
-void bubbleSort(Collection& ar, size_t size, Comparator comparator) noexcept
+template<typename Collection, typename Comparator, typename = typename Collection::size_type>
+void bubbleSort(Collection& collection, Comparator comparator) noexcept
 {
-    bool wasSorted = false;
-    for (std::size_t i = 0; i < size - 1; i++)
+    bool wasSorted = true;
+    for (Collection::size_type i = 0; i < collection.size(); i++) 
     {
-        wasSorted = true;
-        for (std::size_t j = 0; j < size - 1; j++)
+        for (Collection::size_type j = 0; j < collection.size() - 1; j++) 
         {
-            if (comparator(ar[j], ar[j + 1]))
+            if (comparator(collection[j], collection[j + 1])) 
             {
-                std::swap(ar[j], ar[j + 1]);
+                std::swap(collection[j], collection[j + 1]);
                 wasSorted = false;
             }
         }
+
         if (wasSorted)
+        {
             return;
+        }
     }
 }
 
@@ -29,7 +31,7 @@ int main()
     for (const auto& val : vector)
         std::cout << val << " ";
 
-    bubbleSort(vector, vector.size(), [](int a, int b) { return a > b; });
+    bubbleSort(vector, [] (int a, int b) -> bool { return a > b; });
 
     std::cout << std::endl << "Sorted array: ";
     for (const auto& val : vector)
