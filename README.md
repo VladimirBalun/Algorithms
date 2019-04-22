@@ -96,6 +96,11 @@ project contains the following algorithms...
 | Shell sorting     |  Array        | O(n^2)      | O(n^2)         | O(n^2)       |
 | Stupid sorting    |  Array        | O(n)        | O(n^3)         | O(n^3)       |
 
+## Other
+| Name algorithm |
+|:--------------:|
+| Queens puzzle  |
+
 ---
 
 Other algorithms will be added later. Please follow the news.
