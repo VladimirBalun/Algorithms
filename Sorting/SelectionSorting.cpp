@@ -1,21 +1,18 @@
 #include <vector>
 #include <iostream>
 
-template<typename Collection, typename Comparator>
-void selectionSort(Collection& ar, std::size_t size, Comparator comparator)
+template<typename Collection, typename Comparator, typename = typename Collection::iterator>
+void selection_sorting(Collection& collection, Comparator comparator) noexcept
 {
-    std::size_t key;
-    for (std::size_t i = 0; i < size - 1; i++)
+    for (Collection::size_type i = 0; i < collection.size() - 1; i++) 
     {
-        key = i;
-        for (std::size_t j = i; j < size; j++)
-        {
-           if (comparator(ar[key], ar[j]))
-               key = j;
-        }
-
-        if (key != i)
-            std::swap(ar[i], ar[key]);
+        Collection::size_type key_element_index = i;
+        for (Collection::size_type j = i + 1; j < collection.size(); j++)
+            if (comparator(collection[j], collection[key_element_index]))
+                key_element_index = j;
+    
+        if (key_element_index != i)
+            std::swap(collection[i], collection[key_element_index]);
     }
 }
 
@@ -24,14 +21,14 @@ int main()
     std::vector<int> vector = { 4, 7, 1, 5, 2, 9, 4, 7, 2, 9, 4 };
 
     std::cout << "Not sorted array: ";
-    for (const auto& val : vector)
-        std::cout << val << " ";
+    for (const auto& value : vector)
+        std::cout << value << " ";
 
-    selectionSort(vector, vector.size(), [](int a, int b) { return a > b; });
+    selection_sorting(vector, [](int a, int b) { return a > b; });
 
-    std::cout << std::endl << "Sorted array: ";
-    for (const auto& val : vector)
-        std::cout << val << " ";
+    std::cout << "\nSorted array: ";
+    for (const auto& value : vector)
+        std::cout << value << " ";
 
     return EXIT_SUCCESS;
 }
