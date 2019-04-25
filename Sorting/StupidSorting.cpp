@@ -1,14 +1,14 @@
-#include <iostream>
 #include <vector>
+#include <iostream>
 
-template <typename Collection, typename Comparator>
-void stupidSort(Collection& ar, size_t size, Comparator comparator)
+template <typename Collection, typename Comparator, typename = typename Collection::iterator>
+void stupid_sorting(Collection& collection, Comparator comparator) noexcept
 {
-    for (int i = 0; i < size - 1; i++)
+    for (int i = 0; i < static_cast<int>(collection.size() - 1); ++i)
     {
-        if (comparator(ar[i + 1], ar[i]))
+        if (comparator(collection[i], collection[i + 1]))
         {
-            std::swap(ar[i], ar[i + 1]);
+            std::swap(collection[i], collection[i + 1]);
             i = -1;
         }
     }
@@ -19,18 +19,14 @@ int main()
     std::vector<int> vector = { 7, 9, 1, 5, 8, 1, 8, 3, 7, 3 };
 
     std::cout << "Not sorted array: ";
-    for (const auto& val : vector)
-    {
-        std::cout << val << " ";
-    }
+    for (const auto& value : vector)
+        std::cout << value << " ";
 
-    stupidSort(vector, vector.size(), [](int a, int b) { return a < b; });
+    stupid_sorting(vector, [](int a, int b) { return a < b; });
 
-    std::cout << std::endl << "Sorted array: ";
-    for (const auto& val : vector)
-    {
-        std::cout << val << " ";
-    }
+    std::cout << "\nSorted array: ";
+    for (const auto& value : vector)
+        std::cout << value << " ";
 
     return EXIT_SUCCESS;
 }
