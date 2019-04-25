@@ -1,16 +1,12 @@
-#include <iostream>
 #include <vector>
+#include <iostream>
 
-template <typename Collection, typename Comparator>
-void insertionSort(Collection& ar, size_t size, Comparator comparator)
+template<typename Collection, typename Comparator, typename = typename Collection::size_type>
+void insertion_sorting(Collection& collection, Comparator comparator) noexcept
 {
-    for (size_t i = 1; i < size; i++)
-    {
-        for (size_t j = i; j > 0 && comparator(ar[j], ar[j - 1]) ; j--)
-        {
-            std::swap(ar[j], ar[j - 1]);
-        }
-    }
+    for (Collection::size_type i = 1; i < collection.size(); i++)
+        for (Collection::size_type j = i; (j > 0) && (comparator(collection[j], collection[j - 1])); j--)
+            std::swap(collection[j], collection[j - 1]);
 }
 
 int main()
@@ -18,18 +14,14 @@ int main()
     std::vector<int> vector = { 7, 2, 9, 1, 7, 2, 7, 2, 6, 0, 5, 6 };
 
     std::cout << "Not sorted array: ";
-    for(const auto& val : vector)
-    {
-        std::cout << val << " ";
-    }
+    for(const auto& value : vector)
+        std::cout << value << " ";
 
-    insertionSort(vector, vector.size(), [](int a, int b) { return a < b; });
+    insertion_sorting(vector, [](int a, int b) { return a < b; });
 
-    std::cout << std::endl << "Sorted array: ";
-    for(const auto& val : vector)
-    {
-        std::cout << val << " ";
-    }
+    std::cout << "\nSorted array: ";
+    for(const auto& value : vector)
+        std::cout << value << " ";
 
     return EXIT_SUCCESS;
 }
