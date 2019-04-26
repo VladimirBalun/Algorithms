@@ -2,20 +2,21 @@
 #include <vector>
 #include <iostream>
 
-void BFSNonRecursive(int startVertex, const std::vector<std::vector<int>>& graph, std::vector<bool>& visitedVertices)
+template<typename T>
+void bfs_non_recursive(T start_vertex, const std::vector<std::vector<T>>& graph, std::vector<bool>& visited_vertices) noexcept
 {
-    std::queue<int> queue;
-    queue.push(startVertex);
+    std::queue<T> queue;
+    queue.push(start_vertex);
     while (!queue.empty())
     {
-        const int currentVertex = queue.front();
+        const T currentVertex = queue.front();
         std::cout << " -> " << currentVertex + 1;
         queue.pop();
-        for (std::size_t i = 0; i < graph.at(currentVertex).size(); i++) 
+        for (std::size_t i = 0; i < graph.size(); i++) 
         {
-            if ( (graph.at(currentVertex).at(i) != 0) && (!visitedVertices.at(i)) ) 
+            if ( (graph.at(currentVertex).at(i) != 0) && (!visited_vertices.at(i)) )
             {
-                visitedVertices.at(i) = true;
+                visited_vertices.at(i) = true;
                 queue.push(i);
             }
         }
@@ -24,8 +25,6 @@ void BFSNonRecursive(int startVertex, const std::vector<std::vector<int>>& graph
 
 int main()
 {
-    const int startVertex = 0; // start from 0 index
-    std::vector<bool> visitedVertices = { false, false, false, false, false, false };
     const std::vector<std::vector<int>> graph = {
         // Adjacency matrix
         { 0, 0, 1, 1, 0, 0 },
@@ -36,8 +35,11 @@ int main()
         { 0, 0, 1, 0, 0, 0 }
     };
 
+    const int start_vertex = 0;
+    std::vector<bool> visited_vertices(graph.size());
+
     std::cout << "Non recursive BFS: ";
-    BFSNonRecursive(startVertex, graph, visitedVertices);
+    bfs_non_recursive(start_vertex, graph, visited_vertices);
 
     return EXIT_SUCCESS;
 }
