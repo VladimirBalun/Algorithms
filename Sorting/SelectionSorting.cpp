@@ -4,10 +4,10 @@
 template<typename Collection, typename Comparator, typename = typename Collection::iterator>
 void selection_sorting(Collection& collection, Comparator comparator) noexcept
 {
-    for (Collection::size_type i = 0; i < collection.size() - 1; i++) 
+    for (typename Collection::size_type i = 0; i < collection.size() - 1; i++)
     {
-        Collection::size_type key_element_index = i;
-        for (Collection::size_type j = i + 1; j < collection.size(); j++)
+        typename Collection::size_type key_element_index = i;
+        for (typename Collection::size_type j = i + 1; j < collection.size(); j++)
             if (comparator(collection[j], collection[key_element_index]))
                 key_element_index = j;
     

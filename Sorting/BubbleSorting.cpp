@@ -5,9 +5,9 @@ template<typename Collection, typename Comparator, typename = typename Collectio
 void bubble_sorting(Collection& collection, Comparator comparator) noexcept
 {
     bool was_sorted = true;
-    for (Collection::size_type i = 0; i < collection.size(); i++) 
+    for (typename Collection::size_type i = 0; i < collection.size(); i++)
     {
-        for (Collection::size_type j = 0; j < collection.size() - 1; j++) 
+        for (typename Collection::size_type j = 0; j < collection.size() - 1; j++)
         {
             if (comparator(collection[j], collection[j + 1])) 
             {

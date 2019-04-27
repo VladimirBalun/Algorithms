@@ -4,9 +4,9 @@
 template <typename Collection, typename Comparator, typename = typename Collection::iterator>
 void shell_sorting(Collection& collection, Comparator comparator) noexcept
 {
-    for (Collection::size_type step = collection.size() / 2; step > 0; step /= 2)
-        for (Collection::size_type i = 0; i < collection.size(); i++)
-            for (Collection::size_type j = i; (j > step - 1) && comparator(collection[j], collection[j - step]); j--)
+    for (typename Collection::size_type step = collection.size() / 2; step > 0; step /= 2)
+        for (typename Collection::size_type i = 0; i < collection.size(); i++)
+            for (typename Collection::size_type j = i; (j > step - 1) && comparator(collection[j], collection[j - step]); j--)
                 std::swap(collection[j], collection[j - step]);
 }
 

@@ -4,9 +4,9 @@
 template<typename Collection, typename ValueType>
 int binarySearch(Collection& array, ValueType value)
 {
-    Collection::size_type begin = 0;
-    Collection::size_type end = array.size();
-    Collection::size_type mid = (begin + end) / 2;
+    typename Collection::size_type begin = 0;
+    typename Collection::size_type end = array.size();
+    typename Collection::size_type mid = (begin + end) / 2;
     while(begin <= end) 
     {
         if(array[mid] == value)

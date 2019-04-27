@@ -1,3 +1,4 @@
+#include <memory>
 #include <iostream>
 #include <forward_list>
 

@@ -1,10 +1,11 @@
+#include <cmath>
 #include <vector>
 #include <utility>
 #include <iostream>
 #include <type_traits>
 
-#define X_COORDINATE 0
-#define Y_COORDINATE 1
+static const std::uint8_t X_COORDINATE = 0;
+static const std::uint8_t Y_COORDINATE = 1;
 
 template<typename T>
 using point_t = std::pair<T, T>;
@@ -27,8 +28,8 @@ double get_distance_between_point_and_line_segment(const line_segment_t<Coordina
     const CoordinateType x2 = std::get<X_COORDINATE>(line_segment.second);
     const CoordinateType y2 = std::get<Y_COORDINATE>(line_segment.second);
 
-    const double double_area = abs((y2-y1)*x - (x2-x1)*y + x2*y1 - y2*x1);
-    const double line_segment_length = sqrt(pow((x2-x1), 2) + pow((y2-y1), 2));
+    const double double_area = std::abs((y2-y1)*x - (x2-x1)*y + x2*y1 - y2*x1);
+    const double line_segment_length = std::sqrt(std::pow((x2-x1), 2) + std::pow((y2-y1), 2));
     if (line_segment_length != 0.0)
         return double_area / line_segment_length;
     else
@@ -66,7 +67,7 @@ void simplify_points(const points_t<CoordinateType>& src_points, points_t<Coordi
 
 template<
     typename CoordinateType,
-    typename = std::enable_if<std::is_integral<CoordinateType>::value || std::is_floating_point<CoordinateType>::value>::type>
+    typename = typename std::enable_if<std::is_integral<CoordinateType>::value || std::is_floating_point<CoordinateType>::value>::type>
 points_t<CoordinateType> ramer_duglas_peucker(const points_t<CoordinateType>& src_points, double tolerance) noexcept
 {
     if (tolerance <= 0)

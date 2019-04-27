@@ -4,7 +4,7 @@
 template<typename Collection, typename ValueType>
 int linearSearch(Collection& array, ValueType value)
 {
-    for (Collection::size_type i = 0; i < array.size(); i++)
+    for (typename Collection::size_type i = 0; i < array.size(); i++)
         if(array[i] == value)
             return i;
 

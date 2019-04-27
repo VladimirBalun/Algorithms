@@ -39,6 +39,8 @@ set_target_properties (BFS DFS PROPERTIES FOLDER "Graphs")
 # Multithreading
 add_executable (PingPong ./Multithreading/PingPong.cpp)
 add_executable (ProducerAndConsumer ./Multithreading/ProducerAndConsumer.cpp)
+target_link_libraries (PingPong -pthread)
+target_link_libraries (ProducerAndConsumer -pthread)
 set_target_properties (PingPong ProducerAndConsumer PROPERTIES FOLDER "Multithreading")
 
 # Other
