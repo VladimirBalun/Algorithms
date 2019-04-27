@@ -42,8 +42,9 @@ add_executable (ProducerAndConsumer ./Multithreading/ProducerAndConsumer.cpp)
 set_target_properties (PingPong ProducerAndConsumer PROPERTIES FOLDER "Multithreading")
 
 # Other
-add_executable (QueensPuzzle ./Other/QueensPuzzle.cpp)
-set_target_properties (QueensPuzzle PROPERTIES FOLDER "Other")
+add_executable (ReversalForwardList ./Other/ReversalForwardList.cpp)
+add_executable (QueensPuzzle ./Other/QueensPuzzle.cpp)                                                           
+set_target_properties (ReversalForwardList QueensPuzzle PROPERTIES FOLDER "Other")
 
 # Search
 add_executable (BinarySearch ./Search/BinarySearch.cpp)

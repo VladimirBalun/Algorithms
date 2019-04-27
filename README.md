@@ -98,9 +98,10 @@ project contains the following algorithms...
 | Stupid sorting    |  Array        | O(n)         | O(n^3)         | O(n^3)       |
 
 ## Other
-| Name algorithm |
-|:--------------:|
-| Queens puzzle  |
+| Name algorithm               |
+|:----------------------------:|
+| Queens puzzle                |
+| Reversal of the forward list |
 
 ---
 
