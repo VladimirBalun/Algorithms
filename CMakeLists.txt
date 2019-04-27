@@ -68,10 +68,11 @@ set_target_properties (AutoPtr SharedPtr UniquePtr PROPERTIES FOLDER "SmartPinte
 
 # Sorting
 add_executable (BubbleSorting ./Sorting/BubbleSorting.cpp)
+add_executable (CountingSorting ./Sorting/CountingSorting.cpp)
 add_executable (InsertionSorting ./Sorting/InsertionSorting.cpp)
 add_executable (MergeSorting ./Sorting/MergeSorting.cpp)
 add_executable (QuickSorting ./Sorting/QuickSorting.cpp)
 add_executable (SelectionSorting ./Sorting/SelectionSorting.cpp)
 add_executable (ShellSorting ./Sorting/ShellSorting.cpp)
 add_executable (StupidSorting ./Sorting/StupidSorting.cpp)
-set_target_properties (BubbleSorting InsertionSorting MergeSorting QuickSorting SelectionSorting ShellSorting StupidSorting PROPERTIES FOLDER "Sorting")
+set_target_properties (BubbleSorting CountingSorting InsertionSorting MergeSorting QuickSorting SelectionSorting ShellSorting StupidSorting PROPERTIES FOLDER "Sorting")
