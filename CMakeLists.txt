@@ -43,10 +43,11 @@ target_link_libraries (PingPong -pthread)
 target_link_libraries (ProducerAndConsumer -pthread)
 set_target_properties (PingPong ProducerAndConsumer PROPERTIES FOLDER "Multithreading")
 
-# Other
-add_executable (ReversalForwardList ./Other/ReversalForwardList.cpp)
-add_executable (QueensPuzzle ./Other/QueensPuzzle.cpp)                                                           
-set_target_properties (ReversalForwardList QueensPuzzle PROPERTIES FOLDER "Other")
+# Others
+add_executable (ReversalForwardList ./Others/ReversalForwardList.cpp)
+add_executable (MaximumAmoundOfSubarrays ./Others/MaximumAmoundOfSubarrays.cpp)
+add_executable (QueensPuzzle ./Others/QueensPuzzle.cpp)                                                           
+set_target_properties (ReversalForwardList MaximumAmoundOfSubarrays QueensPuzzle PROPERTIES FOLDER "Others")
 
 # Search
 add_executable (BinarySearch ./Search/BinarySearch.cpp)

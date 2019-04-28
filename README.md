@@ -90,7 +90,7 @@ project contains the following algorithms...
 | Name algorithm    |Data Structure | Best result  | Average result | Worse result |
 |:-----------------:|:-------------:|:------------:|:--------------:|:------------:|
 | Bubble sorting    |  Array        | O(n)         | O(n^2)         | O(n^2)       |
-| Ñounting sorting  |  Array        | O(n)         | O(n)           | O(n)         |
+| ï¿½ounting sorting  |  Array        | O(n)         | O(n)           | O(n)         |
 | Insertion sorting |  Array        | O(n^2)       | O(n^2)         | O(n^2)       |
 | Merge sorting     |  Array        | O(n*log(n))  | O(n*log(n))    | O(n*log(n))  |
 | Quick sorting     |  Array        | O(n*log(n))  | O(n*log(n))    | O(n^2)       |
@@ -98,10 +98,11 @@ project contains the following algorithms...
 | Shell sorting     |  Array        | O(n^2)       | O(n^2)         | O(n^2)       |
 | Stupid sorting    |  Array        | O(n)         | O(n^3)         | O(n^3)       |
 
-## Other
+## Others
 | Name algorithm               |
 |:----------------------------:|
 | Queens puzzle                |
+| Maximum amound of subarrays  |
 | Reversal of the forward list |
 
 ---
