@@ -27,7 +27,8 @@ project contains the following algorithms...
 
 | Name algorithm                           | Average result | Worse result |
 |:----------------------------------------:|---------------:|:------------:|
-| Ramer-Douglas-Peucker                    | O(n *log(n))   | O(n^2)       |
+| Ramer-Douglas-Peucker                    | O(n*log(n))    | O(n^2)       |
+| Scan-line method                         | O(n*log(n))    | O(n*log(n))  |
 
 ## Cryptography
 
@@ -90,7 +91,7 @@ project contains the following algorithms...
 | Name algorithm    |Data Structure | Best result  | Average result | Worse result |
 |:-----------------:|:-------------:|:------------:|:--------------:|:------------:|
 | Bubble sorting    |  Array        | O(n)         | O(n^2)         | O(n^2)       |
-| ï¿½ounting sorting  |  Array        | O(n)         | O(n)           | O(n)         |
+| Ñounting sorting  |  Array        | O(n)         | O(n)           | O(n)         |
 | Insertion sorting |  Array        | O(n^2)       | O(n^2)         | O(n^2)       |
 | Merge sorting     |  Array        | O(n*log(n))  | O(n*log(n))    | O(n*log(n))  |
 | Quick sorting     |  Array        | O(n*log(n))  | O(n*log(n))    | O(n^2)       |

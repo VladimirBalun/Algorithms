@@ -17,7 +17,8 @@ set_target_properties (FIFO LRU PROPERTIES FOLDER "Caching")
 
 # ComputationalGeometry
 add_executable (RamerDouglasPeucker ./ComputationalGeometry/RamerDouglasPeucker.cpp)
-set_target_properties (RamerDouglasPeucker PROPERTIES FOLDER "ComputationalGeometry")
+add_executable (ScanLineMethod ./ComputationalGeometry/ScanLineMethod.cpp)
+set_target_properties (RamerDouglasPeucker ScanLineMethod PROPERTIES FOLDER "ComputationalGeometry")
 
 # Cryptography
 add_executable (CaesarCipher ./Cryptography/CaesarCipher.cpp)
