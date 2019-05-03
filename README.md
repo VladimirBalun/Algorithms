@@ -46,6 +46,12 @@ project contains the following algorithms...
 | Queue              | -           | -              | O(1)         | O(1)        | O(n)   |
 | Stack              | -           | -              | O(1)         | O(1)        | O(n)   |
 
+## Dynamic programming
+
+| Name algorithm |
+|:--------------:|
+| Fibonacci      |
+
 ## Graphs
 
 | Name algorithm             |
@@ -91,7 +97,7 @@ project contains the following algorithms...
 | Name algorithm    |Data Structure | Best result  | Average result | Worse result |
 |:-----------------:|:-------------:|:------------:|:--------------:|:------------:|
 | Bubble sorting    |  Array        | O(n)         | O(n^2)         | O(n^2)       |
-| �ounting sorting  |  Array        | O(n)         | O(n)           | O(n)         |
+| Counting sorting  |  Array        | O(n)         | O(n)           | O(n)         |
 | Insertion sorting |  Array        | O(n^2)       | O(n^2)         | O(n^2)       |
 | Merge sorting     |  Array        | O(n*log(n))  | O(n*log(n))    | O(n*log(n))  |
 | Quick sorting     |  Array        | O(n*log(n))  | O(n*log(n))    | O(n^2)       |
