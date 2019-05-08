@@ -17,12 +17,12 @@ std::size_t fibonacci_sub_function(std::vector<std::size_t>& numbers, std::size_
 {
     if (numbers.at(number) != 0u)
         return numbers.at(number);
-    else if (number < 0)
+    else if (number == 0)
         return 0u;
     else if (number == 1)
         return 1u;
     else
-        return fibonacci_sub_function(numbers, number - 1) + fibonacci_sub_function(numbers, number - 2);
+        return numbers.at(number) = fibonacci_sub_function(numbers, number - 1) + fibonacci_sub_function(numbers, number - 2);
 }
 
 std::size_t fibonacci_recursive(std::size_t number) noexcept 
