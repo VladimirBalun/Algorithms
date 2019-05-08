@@ -27,6 +27,7 @@ project contains the following algorithms...
 
 | Name algorithm                           | Average result | Worse result |
 |:----------------------------------------:|---------------:|:------------:|
+| Bresenham's line                         | -              | -            |
 | Ramer-Douglas-Peucker                    | O(n*log(n))    | O(n^2)       |
 | Scan-line method                         | O(n*log(n))    | O(n*log(n))  |
 
