@@ -49,9 +49,10 @@ project contains the following algorithms...
 
 ## Dynamic programming
 
-| Name algorithm |
-|:--------------:|
-| Fibonacci      |
+| Name algorithm    |
+|:-----------------:|
+| Exchange of coins |
+| Fibonacci         |
 
 ## Graphs
 

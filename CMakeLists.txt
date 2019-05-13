@@ -34,7 +34,8 @@ add_executable (Stack ./DataStructures/Stack.cpp)
 set_target_properties (BinaryHeap BinaryTree LinkedList Queue Stack PROPERTIES FOLDER "DataStructures")
 # Dynamic programming
 add_executable (Fibonacci ./DynamicProgramming/Fibonacci.cpp)
-set_target_properties (Fibonacci PROPERTIES FOLDER "DynamicProgramming")
+add_executable (ExchangeOfCoins ./DynamicProgramming/ExchangeOfCoins.cpp)
+set_target_properties (ExchangeOfCoins Fibonacci PROPERTIES FOLDER "DynamicProgramming")
 
 # Graphs
 add_executable (BFS ./Graphs/BFS.cpp)
