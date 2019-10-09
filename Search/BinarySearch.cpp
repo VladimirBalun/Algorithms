@@ -1,21 +1,35 @@
 #include <vector>
 #include <iostream>
 
-template<typename Collection, typename ValueType>
-int binarySearch(Collection& array, ValueType value)
+template<typename Collection>
+using ValType = typename Collection::value_type;
+
+template<typename Collection>
+using SizeType = typename Collection::size_type;
+
+template<typename Collection>
+int binary_search(const Collection& collection, const ValType<Collection>& value)
 {
-    typename Collection::size_type begin = 0;
-    typename Collection::size_type end = array.size();
-    typename Collection::size_type mid = (begin + end) / 2;
-    while(begin <= end) 
+    SizeType<Collection> begin = 0u;
+    SizeType<Collection> end = collection.size();
+    SizeType<Collection> middle = collection.size() / 2;
+
+    while (begin <= end)
     {
-        if(array[mid] == value)
-            return mid;
-        if(value < array[mid])
-            end = mid - 1;
-        if(value > array[mid])
-            begin = mid + 1;
-        mid = (begin + end) / 2;
+        if (collection[middle] < value)
+        {
+            begin = middle + 1;
+            middle = (begin + end) / 2;
+        }
+        else if (collection[middle] > value)
+        {
+            end = middle - 1;
+            middle = (begin + end) / 2;
+        }
+        else
+        {
+            return middle;
+        }
     }
 
     return -1;
@@ -23,7 +37,7 @@ int binarySearch(Collection& array, ValueType value)
 
 int main()
 {
-    std::vector<int> vector = { 1, 5, 10, 12, 14, 15, 56, 57, 60, 66 };
-    std::cout << "Index: " << binarySearch(vector, 57) << std::endl;
-    return 0;
+    const std::vector<int> vector = { 1, 5, 10, 12, 14, 15, 56, 57, 60, 66 };
+    std::cout << "Index: " << binary_search(vector, 57) << std::endl;
+    return EXIT_SUCCESS;
 }
