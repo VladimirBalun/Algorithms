@@ -2,9 +2,15 @@
 #include <iostream>
 
 template<typename Collection>
-int linear_search(const Collection& collection, const typename Collection::value_type& value) noexcept
+using ValType = typename Collection::value_type;
+
+template<typename Collection>
+using SizeType = typename Collection::size_type;
+
+template<typename Collection>
+int linear_search(const Collection& collection, const ValType<Collection>& value) noexcept
 {
-    for (typename Collection::size_type i = 0; i < collection.size(); ++i)
+    for (SizeType<Collection> i = 0; i < collection.size(); ++i)
     {
         if (collection[i] == value)
         {
@@ -17,7 +23,7 @@ int linear_search(const Collection& collection, const typename Collection::value
 
 int main()
 {
-    std::vector<int> vector = { 1, 5, 89, 2, 7, 34, 8, 5, 9, 1 };
+    const std::vector<int> vector = { 1, 5, 89, 2, 7, 34, 8, 5, 9, 1 };
     std::cout << "Index: " << linear_search(vector, 5) << std::endl;
     return EXIT_SUCCESS;
 }
