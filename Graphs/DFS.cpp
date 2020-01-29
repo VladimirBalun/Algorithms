@@ -1,54 +1,82 @@
 #include <stack>
 #include <vector>
 #include <iostream>
+#include <forward_list>
 
-void DFSRecursive(int vertex, const std::vector<std::vector<int>>& graph, std::vector<bool>& visitedVertices)
+struct AdjacencyMatrix
 {
-    std::cout << " -> " << vertex + 1;
-    visitedVertices.at(vertex) = true;
-    for (std::size_t i = 0; i < graph.at(vertex).size(); i++)
-        if ((graph.at(vertex).at(i) != 0) && (!visitedVertices.at(i)))
-            DFSRecursive(i, graph, visitedVertices);
-}
+    using view_type = std::vector<std::vector<int> >;
+};
 
-void DFSNonRecursive(int startVertex, const std::vector<std::vector<int>>& graph, std::vector<bool>& visitedVertices)
+namespace details
 {
-    std::stack<int> stack;
-    stack.push(startVertex);
-    while (!stack.empty())
+
+    template<typename GraphViewType>
+    std::forward_list<int> dfs_impl(int start_vertex, const AdjacencyMatrix::view_type& graph_view);
+
+    template<>
+    inline std::forward_list<int> dfs_impl<AdjacencyMatrix>(int start_vertex, const typename AdjacencyMatrix::view_type& graph_view)
     {
-        int currentVertex = stack.top();
-        std::cout << " -> " << currentVertex + 1;
-        stack.pop();
-        for (size_t i = 0; i < graph.at(currentVertex).size(); i++) 
+        std::stack<int> stack_helper{};
+        stack_helper.push(start_vertex);
+        std::vector<bool> visited_vertices(graph_view.size());
+        std::forward_list<int> result{};
+        while (!stack_helper.empty())
         {
-            if ((graph.at(currentVertex).at(i) != 0) && (!visitedVertices.at(i)))
+            const int current_vertex = stack_helper.top();
+            stack_helper.pop();
+            result.push_front(current_vertex);
+            const std::vector<int>& row_vertices = graph_view.at(current_vertex);
+            for (std::size_t i = 0u; i < row_vertices.size(); ++i)
             {
-                visitedVertices.at(i) = true;
-                stack.push(i);
+                const int suggested_vertex = row_vertices.at(i);
+                if ((suggested_vertex > 0) && (!visited_vertices.at(i)))
+                {
+                    visited_vertices.at(i) = true;
+                    stack_helper.push(i);
+                }
             }
         }
+
+        return result;
     }
+
+}
+
+
+template<typename GraphViewType>
+std::forward_list<int> dfs(int start_vertex, const typename GraphViewType::view_type& graph_view)
+{
+    return details::dfs_impl<GraphViewType>(start_vertex, graph_view);
 }
 
 int main()
 {
-    const int startVertex = 0; // start from 0 index
-    std::vector<bool> visitedVertices = { false, false, false, false, false };
-    const std::vector<std::vector<int>> graph = { 
-        // Adjacency matrix
-        { 0, 0, 1, 1, 0 },
-        { 0, 0, 0, 0, 1 },
-        { 1, 0, 0, 1, 0 },
-        { 1, 0, 1, 0, 1 },
-        { 0, 1, 0, 1, 0 }
+    //          0          
+    //         / \         
+    //        1   2        
+    //       / \   \       
+    //      3---4   5      
+    //               \     
+    //                6    
+
+    AdjacencyMatrix::view_type adjacency_matrix = {
+        { 0, 1, 1, 0, 0, 0, 0 },
+        { 1, 0, 0, 1, 1, 0, 0 },
+        { 1, 0, 0, 0, 0, 1, 0 },
+        { 0, 1, 0, 0, 1, 0, 0 },
+        { 0, 1, 0, 1, 0, 0, 0 },
+        { 0, 0, 0, 0, 0, 0, 1 },
+        { 0, 0, 0, 0, 0, 1, 0 }
     };
 
-    std::cout << "Recursive DFS: ";
-    DFSRecursive(startVertex, graph, visitedVertices);
-    std::fill(visitedVertices.begin(), visitedVertices.end(), false);
-    std::cout << "\nNon recursive DFS: ";
-    DFSNonRecursive(startVertex, graph, visitedVertices);
+    std::cout << "DFS for adjacency matrix: ";
+    std::forward_list<int> result = dfs<AdjacencyMatrix>(0, adjacency_matrix);
+    result.reverse();
+    for (const int vertex : result)
+    {
+        std::cout << vertex << "   ";
+    }
 
     return EXIT_SUCCESS;
 }
