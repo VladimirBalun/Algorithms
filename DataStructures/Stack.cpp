@@ -1,204 +1,164 @@
+#include <memory>
 #include <iostream>
 #include <stdexcept>
 
-template<typename Type>
-class Stack
+namespace details
 {
-public:
-    using value_type = Type;
-    using size_type = std::size_t;
-    using reference = value_type&;
-    using const_reference = const value_type&;
-public:
-    explicit Stack() = default;
-    explicit Stack(const Stack& another) noexcept
-        : m_head(copy_node(another.m_head)), m_size(another.m_size) {}
-    explicit Stack(Stack&& another) noexcept;
-    Stack& operator=(const Stack& another) noexcept;
-    Stack& operator=(Stack&& another) noexcept;
-    void swap(Stack& another) noexcept;
-    template<typename... Args>
-    void emplace(Args&&... args) noexcept;
-    void push(const Type& value) noexcept;
-    void push(Type&& value) noexcept;
-    void pop();
-    void clear() noexcept;
-    reference top();
-    const_reference top() const;
-    constexpr size_type size() const noexcept;
-    constexpr bool empty() const noexcept;
-    ~Stack();
-private:
-    struct Node
+
+    template<typename T>
+    class StackImpl
     {
-        Type value = Type();
-        Node* prev = nullptr;
+    protected:
+        StackImpl(size_t size = 0u);
+        ~StackImpl();
+        StackImpl(const StackImpl& other) = delete;
+        StackImpl& operator = (const StackImpl& other) = delete;
+        void swap(StackImpl& other) noexcept;
+    protected:
+        T*     m_data;
+        size_t m_size;
+        size_t m_used;
     };
-    Node* copy_node(Node* another) const noexcept;
-private:
-    Node* m_head = nullptr;
-    size_type m_size = 0;
+
+    template<typename T>
+    StackImpl<T>::StackImpl(size_t size)
+        : m_data(static_cast<T*>( (size == 0) ? (nullptr) : (operator new(sizeof(T) * size) ))),
+          m_size(size), m_used(0u)
+    {
+    }
+
+    template<typename T>
+    StackImpl<T>::~StackImpl()
+    {
+        std::destroy(m_data, m_data + m_size);
+        operator delete(m_data);
+    }
+
+    template<typename T>
+    void StackImpl<T>::swap(StackImpl& other) noexcept
+    {
+        std::swap(m_data, other.m_data);
+        std::swap(m_size, other.m_size);
+        std::swap(m_used, other.m_used);
+    }
+
+}
+
+template<typename T>
+class Stack : public details::StackImpl<T>
+{
+    using super = details::StackImpl<T>;
+public:
+    Stack(size_t size = 0u);
+    Stack(const Stack& other);
+    Stack& operator = (Stack other);
+    constexpr size_t size() const noexcept;
+    constexpr bool empty() const noexcept;
+    T& top();
+    void push(const T& value);
+    void pop();
 };
 
-template<typename Type>
-Stack<Type>::Stack(Stack&& another) noexcept
-    : m_head(another.m_head), m_size(another.m_size)
+template<typename T>
+Stack<T>::Stack(size_t size)
+    : details::StackImpl<T>(size)
 {
-    another.m_size = 0;
-    another.m_head = nullptr;
+    super::m_used = 0;
 }
 
-template<typename Type>
-Stack<Type>& Stack<Type>::operator=(const Stack& another) noexcept
+template<typename T>
+Stack<T>::Stack(const Stack& other)
+    : details::StackImpl<T>(other.m_used)
 {
-    if (this != &another)
+    while (super::m_used < other.m_used)
     {
-        if (!empty())
-            clear();
-        m_head = copy_node(another.m_head);
-        m_size = another.m_size;
+        new (super::m_data + super::m_used) T(other.m_data[super::m_used]);
+        ++super::m_used;
     }
+}
+
+template<typename T>
+Stack<T>& Stack<T>::operator = (Stack other)
+{
+    swap(other);
     return *this;
 }
 
-template<typename Type>
-Stack<Type>& Stack<Type>::operator=(Stack&& another) noexcept
+template<typename T>
+constexpr size_t Stack<T>::size() const noexcept
 {
-    if (this != &another)
+    return super::m_used;
+}
+
+template<typename T>
+constexpr bool Stack<T>::empty() const noexcept
+{
+    return super::m_used == 0u;
+}
+
+template<typename T>
+T& Stack<T>::top()
+{
+    if (empty())
     {
-        if (!empty())
-            clear();
-        m_head = another.m_head;
-        m_size = another.m_size;
-        another.m_head = nullptr;
-        another.m_size = 0;
-    }
-    return *this;
-}
-
-template<typename Type>
-auto Stack<Type>::copy_node(Node* another) const noexcept -> Node*
-{
-    if (!another)
-        return nullptr;
-
-    return new Node{ another->value, copy_node(another->next) };
-}
-
-template<typename Type>
-void Stack<Type>::swap(Stack& another) noexcept
-{
-    if (this != &another)
-    {
-        Node* another_head = another.m_head;
-        std::size_t another_size = another.m_size;
-        another.m_head = m_head;
-        another.m_size = m_size;
-        m_head = another_head;
-        m_size = another_size;
-    }
-}
-
-template<typename Type>
-template<typename... Args>
-void Stack<Type>::emplace(Args&&... args) noexcept
-{
-    m_head = new Node{ { std::forward<Args>(args)... }, m_head };
-    m_size++;
-}
-
-template<typename Type>
-void Stack<Type>::push(const Type& value) noexcept
-{
-    m_head = new Node{ value, m_head };
-    m_size++;
-}
-
-template<typename Type>
-void Stack<Type>::push(Type&& value) noexcept
-{
-    m_head = new Node{ value, m_head };
-    m_size++;
-}
-
-template<typename Type>
-void Stack<Type>::pop()
-{
-    if (!empty())
-    {
-        Node* temp = m_head;
-        m_head = m_head->prev;
-        delete temp;
-        m_size--;
+        throw std::logic_error("Stack is empty.");
     }
     else
     {
-        throw std::runtime_error("Stack is empty. Could not delete the last element.");
+        return super::m_data[super::m_used - 1];
     }
 }
 
-template<typename Type>
-void Stack<Type>::clear() noexcept
+template<typename T>
+void Stack<T>::push(const T& value)
 {
-    Node* iterator = m_head;
-    while (iterator)
+    if (super::m_used == super::m_size)
     {
-        Node* temp = iterator;
-        iterator = iterator->prev;
-        delete temp;
+        Stack temp(super::m_size * 2 + 1);
+        while (temp.size() < super::m_used)
+        {
+            temp.push(super::m_data[temp.size()]);
+        }
+        temp.push(value);
+        super::swap(temp);
     }
-
-    m_size = 0;
-    m_head = nullptr;
-}
-
-template<typename Type>
-typename Stack<Type>::reference Stack<Type>::top()
-{
-    if (!empty())
-        return m_head->value;
     else
-        throw std::runtime_error("Stack is empty. Could not give the last element.");
+    {
+        new (super::m_data + super::m_used) T(value);
+        ++super::m_used;
+    }
 }
 
-template<typename Type>
-typename Stack<Type>::const_reference Stack<Type>::top() const
+template<typename T>
+void Stack<T>::pop()
 {
-    if (!empty())
-        return m_head->value;
+    if (empty())
+    {
+        throw std::logic_error("Stack is empty.");
+    }
     else
-        throw std::runtime_error("Stack is empty. Could not give the last element.");
-}
-
-template<typename Type>
-constexpr typename Stack<Type>::size_type Stack<Type>::size() const noexcept
-{
-    return m_size;
-}
-
-template<typename Type>
-constexpr bool Stack<Type>::empty() const noexcept
-{
-    return m_size == 0;
-}
-
-template<typename Type>
-Stack<Type>::~Stack()
-{
-    clear();
+    {
+        --super::m_used;
+        T* pointer = super::m_data + super::m_used;
+        pointer->~T();
+    }
 }
 
 int main()
 {
     try
     {
-        Stack<int> stack;
-        for (const auto& val : { 4, 6, 7, 2, 8, 8 })
-            stack.push(val);
-
+        Stack<int> stack{};
+        int data[] = { 7, 6, 5, 4, 3, 2, 1 };
+        
+        for (int value : data)
+        {
+            stack.push(value);
+        }
+        
         while (!stack.empty())
         {
-            std::cout << "Value: " << stack.top() << std::endl;
+            stack.top();
             stack.pop();
         }
 
@@ -206,7 +166,6 @@ int main()
     }
     catch (const std::exception& e)
     {
-        std::cerr << "Error! Cause: " << e.what() << std::endl;
         return EXIT_FAILURE;
     }
 }
