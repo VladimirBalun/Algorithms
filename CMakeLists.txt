@@ -52,9 +52,10 @@ set_target_properties (PingPong ProducerAndConsumer PROPERTIES FOLDER "Multithre
 # Others
 add_executable (ReversalForwardList ./Others/ReversalForwardList.cpp)
 add_executable (MaximumAmoundOfSubarrays ./Others/MaximumAmoundOfSubarrays.cpp)
+add_executable (MaximumPathsNumber ./Others/MaximumPathsNumber.cpp)
 add_executable (TomSawyerSence ./Others/TomSawyerSence.cpp)
 add_executable (QueensPuzzle ./Others/QueensPuzzle.cpp)                                                           
-set_target_properties (ReversalForwardList MaximumAmoundOfSubarrays TomSawyerSence QueensPuzzle PROPERTIES FOLDER "Others")
+set_target_properties (ReversalForwardList MaximumAmoundOfSubarrays MaximumPathsNumber TomSawyerSence QueensPuzzle PROPERTIES FOLDER "Others")
 
 # Search
 add_executable (BinarySearch ./Search/BinarySearch.cpp)
