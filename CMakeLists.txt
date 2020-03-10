@@ -32,6 +32,7 @@ add_executable (LinkedList ./DataStructures/LinkedList.cpp)
 add_executable (Queue ./DataStructures/Queue.cpp)
 add_executable (Stack ./DataStructures/Stack.cpp)
 set_target_properties (BinaryHeap BinaryTree LinkedList Queue Stack PROPERTIES FOLDER "DataStructures")
+
 # Dynamic programming
 add_executable (Fibonacci ./DynamicProgramming/Fibonacci.cpp)
 add_executable (ExchangeOfCoins ./DynamicProgramming/ExchangeOfCoins.cpp)
@@ -52,10 +53,11 @@ set_target_properties (PingPong ProducerAndConsumer PROPERTIES FOLDER "Multithre
 # Others
 add_executable (ReversalForwardList ./Others/ReversalForwardList.cpp)
 add_executable (MaximumAmoundOfSubarrays ./Others/MaximumAmoundOfSubarrays.cpp)
+add_executable (MatrixReverseDiagonals ./Others/MatrixReverseDiagonals.cpp)
 add_executable (MaximumPathsNumber ./Others/MaximumPathsNumber.cpp)
 add_executable (TomSawyerSence ./Others/TomSawyerSence.cpp)
 add_executable (QueensPuzzle ./Others/QueensPuzzle.cpp)                                                           
-set_target_properties (ReversalForwardList MaximumAmoundOfSubarrays MaximumPathsNumber TomSawyerSence QueensPuzzle PROPERTIES FOLDER "Others")
+set_target_properties (ReversalForwardList MatrixReverseDiagonals MaximumAmoundOfSubarrays MaximumPathsNumber TomSawyerSence QueensPuzzle PROPERTIES FOLDER "Others")
 
 # Search
 add_executable (BinarySearch ./Search/BinarySearch.cpp)
@@ -75,7 +77,7 @@ set_target_properties (DifferenceBetweenOrderedSets GenerationOfAllPermutationsF
 add_executable (AutoPtr ./SmartPointers/AutoPtr.cpp)
 add_executable (SharedPtr ./SmartPointers/SharedPtr.cpp)
 add_executable (UniquePtr ./SmartPointers/UniquePtr.cpp)
-set_target_properties (AutoPtr SharedPtr UniquePtr PROPERTIES FOLDER "SmartPinters")
+set_target_properties (AutoPtr SharedPtr UniquePtr PROPERTIES FOLDER "SmartPointers")
 
 # Sorting
 add_executable (BubbleSorting ./Sorting/BubbleSorting.cpp)
