@@ -1,97 +1,152 @@
 #include <iostream>
+#include <vector>
+#include <memory>
 
-template<typename Type>
-class AutoPtr
+template<typename T>
+struct auto_ptr_ref 
 {
-public:
-    explicit AutoPtr(Type* pointer) noexcept : mPointer(pointer) {}
-    explicit AutoPtr(AutoPtr& another) noexcept;
-    AutoPtr& operator = (AutoPtr& another) noexcept;
-    Type operator * () const noexcept;
-    Type* operator -> () const noexcept;
-    operator bool() const noexcept;
-    Type* get() const noexcept;
-    Type* release() noexcept;
-    void reset(Type* pointer = nullptr) noexcept;
-    ~AutoPtr();
-private:
-    Type* mPointer;
+	T* m_pointer;	
+
+	auto_ptr_ref(T* pointer = nullptr) noexcept
+		: m_pointer(pointer) {}	
 };
 
-template<typename Type>
-AutoPtr<Type>::AutoPtr(AutoPtr& another) noexcept
+template<typename T>
+class auto_ptr
 {
-    mPointer = another.mPointer;
-    another.mPointer = nullptr;
+	using element_type = T;
+public:
+	explicit auto_ptr(T* pointer = nullptr) noexcept
+		: m_pointer(pointer) {}
+	auto_ptr(auto_ptr& other) noexcept
+		: m_pointer(other.release()) {}
+	template<typename U>
+	auto_ptr(auto_ptr<U>& other) noexcept
+		: m_pointer(other.release()) {}
+	auto_ptr(auto_ptr_ref<T> other) noexcept
+		: m_pointer(other.m_pointer) {}
+	T& operator=(auto_ptr& other) noexcept;
+	template<typename U>
+	T& operator=(auto_ptr<U>& other) noexcept;
+	T& operator=(auto_ptr_ref<T> other) noexcept;	
+	~auto_ptr();
+	T& operator*() const noexcept;
+	T* operator->() const noexcept;
+	T* get() const noexcept;
+	T* release() noexcept;
+	void reset(T* pointer = nullptr) noexcept;
+	template<typename U>
+	operator auto_ptr<U>() noexcept;
+	template<typename U>
+	operator auto_ptr_ref<U>() noexcept;
+private:
+	T* m_pointer;
+};
+
+template<>
+class auto_ptr<void>
+{
+public:
+	using element_type = void;
+};
+
+template<typename T>
+T& auto_ptr<T>::operator = (auto_ptr& other) noexcept
+{
+	reset(other.release());
+ 	return *this;
 }
 
-template<typename Type>
-AutoPtr<Type>& AutoPtr<Type>::operator = (AutoPtr& another) noexcept
+template<typename T>
+template<typename U>
+T& auto_ptr<T>::operator = (auto_ptr<U>& other) noexcept
 {
-    if (this != &another) 
-    {
-        delete mPointer;
-        mPointer = another.mPointer;
-        another.mPointer = nullptr;
-    }
-    return *this;
+	reset(other.release());
+	return *this;
 }
 
-template<typename Type>
-Type AutoPtr<Type>::operator * () const noexcept
+template<typename T>
+T& auto_ptr<T>::operator = (auto_ptr_ref<T> other) noexcept
 {
-    return *mPointer;
+	reset(other.m_pointer);
+	return *this;
 }
 
-template<typename Type>
-Type* AutoPtr<Type>::operator -> () const noexcept
+template<typename T>
+auto_ptr<T>::~auto_ptr()
 {
-    return mPointer;
+	delete m_pointer;
 }
 
-template<typename Type>
-AutoPtr<Type>::operator bool() const noexcept
+template<typename T>
+T& auto_ptr<T>::operator * () const noexcept
 {
-    return mPointer != nullptr;
+	assert(m_pointer && "auto_ptr is not valid.");
+	return *m_pointer;
 }
 
-template<typename Type>
-Type* AutoPtr<Type>::get() const noexcept
+template<typename T>
+T* auto_ptr<T>::operator -> () const noexcept
 {
-    return mPointer;
+	assert(m_pointer && "auto_ptr is not valid.");
+	return m_pointer;
 }
 
-template<typename Type>
-Type* AutoPtr<Type>::release() noexcept
+template<typename T>
+T* auto_ptr<T>::get() const noexcept
 {
-    Type* tmp = mPointer;
-    mPointer = nullptr;
-    return tmp;
+	return m_pointer;
 }
 
-template<typename Type>
-void AutoPtr<Type>::reset(Type* pointer) noexcept
+template<typename T>
+T* auto_ptr<T>::release() noexcept
 {
-    delete mPointer;
-    mPointer = pointer;
+	T* temp_pointer = m_pointer;
+	m_pointer = nullptr;
+	return temp_pointer;
 }
 
-template<typename Type>
-AutoPtr<Type>::~AutoPtr()
+template<typename T>
+void auto_ptr<T>::reset(T* pointer) noexcept
 {
-    delete mPointer;
+	if (m_pointer != pointer)
+	{
+		delete m_pointer;
+		m_pointer = pointer;
+	}
+}
+
+template<typename T>
+template<typename U>
+auto_ptr<T>::operator auto_ptr<U>() noexcept
+{
+	return auto_ptr<U>(release());
+}
+
+template<typename T>
+template<typename U>
+auto_ptr<T>::operator auto_ptr_ref<U>() noexcept
+{
+	return auto_ptr_ref<U>(release());
 }
 
 int main()
 {
-    // Test structure for testing
-    struct Vector2d
-    {
-        double x, y;
-    };
+	auto_ptr<int> smart_ptr{ new int() };
+	auto_ptr<int> another_smart_ptr{ smart_ptr };
 
-    AutoPtr<Vector2d> ptr1(new Vector2d());
-    AutoPtr<Vector2d> ptr2(ptr1);
-    std::cout << "x: " << ptr2->x << " y: " << ptr2->y << std::endl;
-    return EXIT_SUCCESS;
+	auto_ptr_ref<int> smart_ptr_ref{ another_smart_ptr };
+
+	std::vector<auto_ptr_ref<int>> vector_smart_ptr_refs{ 5u };
+	for (auto ref : vector_smart_ptr_refs)
+	{
+		ref = smart_ptr_ref;
+		assert(ref.m_pointer);
+	}
+
+	auto_ptr<int> result_smart_ptr{ smart_ptr_ref };
+	assert(result_smart_ptr.get() && !smart_ptr.get() && !another_smart_ptr.get());
+
+	return EXIT_SUCCESS;
 }
+
