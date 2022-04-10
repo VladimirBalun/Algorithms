@@ -29,10 +29,11 @@ set_target_properties (CaesarCipher PROPERTIES FOLDER "Cryptography")
 add_executable (BinaryHeap ./DataStructures/BinaryHeap.cpp)
 add_executable (BinaryTree ./DataStructures/BinaryTree.cpp)
 add_executable (LinkedList ./DataStructures/LinkedList.cpp)
+add_executable (InvertedIndex ./DataStructures/InvertedIndex.cpp)
 add_executable (Queue ./DataStructures/Queue.cpp)
 add_executable (Stack ./DataStructures/Stack.cpp)
 add_executable (XORLinkedList ./DataStructures/XORLinkedList.cpp)
-set_target_properties (BinaryHeap BinaryTree LinkedList Queue Stack XORLinkedList PROPERTIES FOLDER "DataStructures")
+set_target_properties (BinaryHeap BinaryTree LinkedList InvertedIndex Queue Stack XORLinkedList PROPERTIES FOLDER "DataStructures")
 
 # Dynamic programming
 add_executable (Fibonacci ./DynamicProgramming/Fibonacci.cpp)
