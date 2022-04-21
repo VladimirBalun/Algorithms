@@ -66,7 +66,8 @@ set_target_properties (ReversalForwardList MatrixReverseDiagonals MaximumAmoundO
 # Search
 add_executable (BinarySearch ./Search/BinarySearch.cpp)
 add_executable (LinearSearch ./Search/LinearSearch.cpp)
-set_target_properties (BinarySearch LinearSearch PROPERTIES FOLDER "Search")
+add_executable (TernarySearch ./Search/TernarySearch.cpp)
+set_target_properties (BinarySearch LinearSearch TernarySearch PROPERTIES FOLDER "Search")
 
 # Set operations
 add_executable (DifferenceBetweenOrderedSets ./SetOperations/DifferenceBetweenOrderedSets.cpp)
