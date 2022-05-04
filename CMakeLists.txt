@@ -26,6 +26,7 @@ add_executable (CaesarCipher ./Cryptography/CaesarCipher.cpp)
 set_target_properties (CaesarCipher PROPERTIES FOLDER "Cryptography")
 
 # Data structures
+add_executable (AVLTree ./DataStructures/AVLTree.cpp)
 add_executable (BinaryHeap ./DataStructures/BinaryHeap.cpp)
 add_executable (BinaryTree ./DataStructures/BinaryTree.cpp)
 add_executable (DisjointSetUnion ./DataStructures/DisjointSetUnion.cpp)
@@ -35,7 +36,7 @@ add_executable (PrefixTree ./DataStructures/PrefixTree.cpp)
 add_executable (Queue ./DataStructures/Queue.cpp)
 add_executable (Stack ./DataStructures/Stack.cpp)
 add_executable (XORLinkedList ./DataStructures/XORLinkedList.cpp)
-set_target_properties (BinaryHeap BinaryTree DisjointSetUnion LinkedList InvertedIndex PrefixTree Queue Stack XORLinkedList PROPERTIES FOLDER "DataStructures")
+set_target_properties (AVLTree BinaryHeap BinaryTree DisjointSetUnion LinkedList InvertedIndex PrefixTree Queue Stack XORLinkedList PROPERTIES FOLDER "DataStructures")
 
 # Dynamic programming
 add_executable (Fibonacci ./DynamicProgramming/Fibonacci.cpp)
