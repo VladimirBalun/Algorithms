@@ -56,13 +56,14 @@ target_link_libraries (ProducerAndConsumer -pthread)
 set_target_properties (PingPong ProducerAndConsumer PROPERTIES FOLDER "Multithreading")
 
 # Others
+add_executable (EratosthenesSieve ./Others/EratosthenesSieve.cpp)
 add_executable (ReversalForwardList ./Others/ReversalForwardList.cpp)
 add_executable (MaximumAmoundOfSubarrays ./Others/MaximumAmoundOfSubarrays.cpp)
 add_executable (MatrixReverseDiagonals ./Others/MatrixReverseDiagonals.cpp)
 add_executable (MaximumPathsNumber ./Others/MaximumPathsNumber.cpp)
 add_executable (TomSawyerSence ./Others/TomSawyerSence.cpp)
 add_executable (QueensPuzzle ./Others/QueensPuzzle.cpp)                                                           
-set_target_properties (ReversalForwardList MatrixReverseDiagonals MaximumAmoundOfSubarrays MaximumPathsNumber TomSawyerSence QueensPuzzle PROPERTIES FOLDER "Others")
+set_target_properties (EratosthenesSieve ReversalForwardList MatrixReverseDiagonals MaximumAmoundOfSubarrays MaximumPathsNumber TomSawyerSence QueensPuzzle PROPERTIES FOLDER "Others")
 
 # Search
 add_executable (BinarySearch ./Search/BinarySearch.cpp)
