@@ -110,7 +110,8 @@ project contains the following algorithms...
 ## Others
 | Name algorithm               |
 |:----------------------------:|
-| Eratosthenes Sieve           |
+| Euclidean algorithm          |
+| Eratosthenes sieve           |
 | Queens puzzle                |
 | Maximum amound of subarrays  |
 | Reversal of the forward list |
