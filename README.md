@@ -99,6 +99,7 @@ project contains the following algorithms...
 | Name algorithm    |Data Structure | Best result  | Average result | Worse result |
 |:-----------------:|:-------------:|:------------:|:--------------:|:------------:|
 | Bubble sorting    |  Array        | O(n)         | O(n^2)         | O(n^2)       |
+| Bucket sorting    |  Array        | O(n)         | O(n)           | O(n^2)       |
 | Counting sorting  |  Array        | O(n)         | O(n)           | O(n)         |
 | Insertion sorting |  Array        | O(n^2)       | O(n^2)         | O(n^2)       |
 | Merge sorting     |  Array        | O(n*log(n))  | O(n*log(n))    | O(n*log(n))  |
