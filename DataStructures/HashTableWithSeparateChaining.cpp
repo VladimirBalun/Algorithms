@@ -3,10 +3,10 @@
 #include <forward_list>
 
 template<
-    typename K,
-    typename V,
-    typename Hash = std::hash<K>,
-    typename KeyEqual = std::equal_to<K>
+        typename K,
+        typename V,
+        typename Hash = std::hash<K>,
+        typename KeyEqual = std::equal_to<K>
 >
 class HashTableWithSeparateChaining {
     using element_t = std::pair<K, V>;
@@ -16,7 +16,7 @@ class HashTableWithSeparateChaining {
 public:
     void insert(std::pair<K, V> element)
     {
-        if (buckets_count() == m_size)
+        if (load_factor() > 0.7)
             rehash();
 
         auto& bucket = m_buckets[bucket_index(element.first)];
@@ -52,15 +52,23 @@ public:
         const size_t index = bucket_index(key);
         const auto& bucket = m_buckets[index];
         auto it = std::find_if(
-            begin(bucket),
-            end(bucket),
-            [&key](const element_t& element)
-            {
-                return KeyEqual()(key, element.first);
-            }
+                begin(bucket),
+                end(bucket),
+                [&key](const element_t& element)
+                {
+                    return KeyEqual()(key, element.first);
+                }
         );
 
         return it != end(bucket);
+    }
+
+    [[nodiscard]] float load_factor() const
+    {
+        if (m_buckets.empty())
+            return 1.0f;
+
+        return m_size / static_cast<float>(m_buckets.size());
     }
 
 private:
