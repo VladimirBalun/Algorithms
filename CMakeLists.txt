@@ -37,9 +37,10 @@ add_executable (LinkedList ./DataStructures/LinkedList.cpp)
 add_executable (InvertedIndex ./DataStructures/InvertedIndex.cpp)
 add_executable (PrefixTree ./DataStructures/PrefixTree.cpp)
 add_executable (Queue ./DataStructures/Queue.cpp)
+add_executable (SegmentTree ./DataStructures/SegmentTree.cpp)
 add_executable (Stack ./DataStructures/Stack.cpp)
 add_executable (XORLinkedList ./DataStructures/XORLinkedList.cpp)
-set_target_properties (AVLTree BinaryHeap BinaryTree DisjointSetUnion HashTableWithOpenAddressing HashTableWithSeparateChaining LinkedList InvertedIndex PrefixTree Queue Stack XORLinkedList PROPERTIES FOLDER "DataStructures")
+set_target_properties (AVLTree BinaryHeap BinaryTree DisjointSetUnion HashTableWithOpenAddressing HashTableWithSeparateChaining LinkedList InvertedIndex PrefixTree Queue SegmentTree Stack XORLinkedList PROPERTIES FOLDER "DataStructures")
 
 # Dynamic programming
 add_executable (Fibonacci ./DynamicProgramming/Fibonacci.cpp)
