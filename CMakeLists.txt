@@ -49,8 +49,9 @@ set_target_properties (ExchangeOfCoins Fibonacci PROPERTIES FOLDER "DynamicProgr
 
 # Graphs
 add_executable (BFS ./Graphs/BFS.cpp)
+add_executable (Dijkstra ./Graphs/Dijkstra.cpp)
 add_executable (DFS ./Graphs/DFS.cpp)
-set_target_properties (BFS DFS PROPERTIES FOLDER "Graphs")
+set_target_properties (BFS Dijkstra DFS PROPERTIES FOLDER "Graphs")
 
 # Multithreading
 add_executable (PingPong ./Multithreading/PingPong.cpp)
