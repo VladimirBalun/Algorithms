@@ -51,7 +51,8 @@ set_target_properties (ExchangeOfCoins Fibonacci PROPERTIES FOLDER "DynamicProgr
 add_executable (BFS ./Graphs/BFS.cpp)
 add_executable (Dijkstra ./Graphs/Dijkstra.cpp)
 add_executable (DFS ./Graphs/DFS.cpp)
-set_target_properties (BFS Dijkstra DFS PROPERTIES FOLDER "Graphs")
+add_executable (TopologicalSort ./Graphs/TopologicalSort.cpp)
+set_target_properties (BFS Dijkstra DFS TopologicalSort PROPERTIES FOLDER "Graphs")
 
 # Multithreading
 add_executable (PingPong ./Multithreading/PingPong.cpp)
